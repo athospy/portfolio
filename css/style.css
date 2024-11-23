@@ -468,11 +468,6 @@ p {
   left: 0;
   top: 0;
 }
-.bg-struct.bg-img {
-  background: url(../img/img-bg-1.jpg);
-  background-position: center;
-  background-size: cover;
-}
 .about-sec .candidate-img {
   height: 230px;
   width: 230px;

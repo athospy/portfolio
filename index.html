@@ -9,10 +9,13 @@
     />
     <title>Santiago Morel</title>
     <meta name="title" content="Santiago Morel" />
-    <meta name="description" content="Software Engineer" />
+    <meta
+      name="description"
+      content="Experienced Full-Stack Software Engineer with 15+ years in web & mobile development, AI/ML expertise, and team leadership. Currently pursuing MS in Information Technology."
+    />
     <meta
       name="keywords"
-      content="Software Engineer, Developer, Php, Python, Java, C, C++, Machine Learning, Artificial Intelligence, AI, ML, Data Science, Data Analysis, SQL, Database, Web Development, Web Developer, Frontend Developer, Backend Developer, Full Stack Developer, Linux, Python, C, Nodejs, PHP, Webdev, Coffee, Reading, Facebook, Twitter, Linkedin, Youtube, Instagram, Github"
+      content="Software Engineer, Full-Stack Developer, Python, JavaScript, PHP, Java, React, Django, Laravel, AI, Machine Learning, Team Leadership, Web Development, Mobile Development, AWS, PostgreSQL, CTO, Tech Lead"
     />
     <meta name="author" content="Santiago Morel" />
     <meta name="language" content="English" />
@@ -75,7 +78,7 @@
     <meta property="og:url" content="https://santiagomorel.dev" />
     <meta
       property="og:description"
-      content="Developer • Archer • Lifelong Learner"
+      content="Experienced Full-Stack Software Engineer • AI/ML Enthusiast • Tech Leader with 15+ years of experience"
     />
     <meta property="og:type" content="profile" />
     <link
@@ -89,37 +92,216 @@
       href="https://code.getmdl.io/1.3.0/material.min.css"
     />
     <link rel="stylesheet" type="text/css" href="css/style.css" />
+
+    <!-- Loading Screen Styles -->
+    <style>
+      .loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          135deg,
+          #1a1a2e 0%,
+          #16213e 50%,
+          #0f3460 100%
+        );
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
+      }
+
+      .loading-screen.fade-out {
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      .loader-container {
+        text-align: center;
+      }
+
+      .modern-loader {
+        position: relative;
+        width: 120px;
+        height: 120px;
+        margin: 0 auto 30px;
+      }
+
+      .loader-ring {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border: 3px solid transparent;
+        border-radius: 50%;
+        animation: rotate 2s linear infinite;
+      }
+
+      .loader-ring:nth-child(1) {
+        border-top-color: #00d4ff;
+        animation-delay: 0s;
+      }
+
+      .loader-ring:nth-child(2) {
+        border-right-color: #b347ff;
+        animation-delay: 0.5s;
+        width: 80%;
+        height: 80%;
+        top: 10%;
+        left: 10%;
+      }
+
+      .loader-ring:nth-child(3) {
+        border-bottom-color: #00d4ff;
+        animation-delay: 1s;
+        width: 60%;
+        height: 60%;
+        top: 20%;
+        left: 20%;
+      }
+
+      .loader-text {
+        color: #00d4ff;
+        font-family: "Roboto", sans-serif;
+        font-size: 18px;
+        font-weight: 300;
+        margin-bottom: 20px;
+        text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+      }
+
+      .loading-progress {
+        width: 200px;
+        height: 4px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 2px;
+        overflow: hidden;
+        margin: 0 auto;
+      }
+
+      .progress-bar {
+        height: 100%;
+        background: linear-gradient(90deg, #00d4ff, #b347ff);
+        border-radius: 2px;
+        animation: progress 3s ease-in-out infinite;
+      }
+
+      @keyframes rotate {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes progress {
+        0% {
+          width: 0%;
+        }
+        50% {
+          width: 70%;
+        }
+        100% {
+          width: 100%;
+        }
+      }
+    </style>
   </head>
   <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RZP5TVP5H8"></script>
+  <script
+    async
+    src="https://www.googletagmanager.com/gtag/js?id=G-RZP5TVP5H8"
+  ></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
 
-    gtag('config', 'G-RZP5TVP5H8');
+    gtag("config", "G-RZP5TVP5H8");
   </script>
   <body>
+    <!-- Modern Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+      <div class="loader-container">
+        <div class="modern-loader">
+          <div class="loader-ring"></div>
+          <div class="loader-ring"></div>
+          <div class="loader-ring"></div>
+        </div>
+        <div class="loader-text">Loading Portfolio...</div>
+        <div class="loading-progress">
+          <div class="progress-bar"></div>
+        </div>
+      </div>
+    </div>
+
     <div class="main-wrapper">
-      <div class="bg-struct bg-img"></div>
+      <div class="bg-struct bg-img parallax-bg"></div>
+
+      <!-- Floating Action Button for Quick Nav -->
+      <div class="fab-container">
+        <button class="fab-main" id="fab-main">
+          <i class="material-icons">navigation</i>
+        </button>
+        <div class="fab-menu" id="fab-menu">
+          <button class="fab-item" data-scroll="#section_intro">
+            <i class="material-icons">person</i>
+          </button>
+          <button class="fab-item" data-scroll="#experience_sec">
+            <i class="material-icons">work</i>
+          </button>
+          <button class="fab-item" data-scroll="#portfolio_sec">
+            <i class="material-icons">folder</i>
+          </button>
+          <button class="fab-item" data-scroll="#interest_sec">
+            <i class="material-icons">code</i>
+          </button>
+          <button class="fab-item" data-scroll="#project_sec">
+            <i class="material-icons">apps</i>
+          </button>
+          <button class="fab-item" data-scroll="#contact_sec">
+            <i class="material-icons">email</i>
+          </button>
+        </div>
+      </div>
+
       <div class="mdl-js-layout mdl-layout--fixed-header">
         <div id="header"></div>
         <div id="drawer"></div>
         <div class="main-content relative">
-          <div class="container">
+          <div class="container" style="padding-top: 40px">
             <section
               id="section_intro"
-              class="about-sec mt-180 mt-sm-120 mb-30"
+              class="about-sec mt-30 mt-sm-20 mb-30"
             ></section>
+
+            <div class="section-divider"></div>
+
+            <section
+              id="experience_sec"
+              class="experience-sec sec-pad-top-sm"
+            ></section>
+
+            <div class="section-divider"></div>
+
             <section
               id="portfolio_sec"
               class="profile-sec sec-pad-top-sm"
             ></section>
+
+            <div class="section-divider"></div>
+
             <section
               id="interest_sec"
               class="interest-sec sec-pad-top-sm"
             ></section>
-            <section id="project_sec" class="blog-sec sec-pad-top-sm"></section>
+
+            <div class="section-divider"></div>
+
             <section
               id="contact_sec"
               class="contact-sec sec-pad-top-sm"

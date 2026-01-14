@@ -304,7 +304,8 @@
               class="footer-sec sec-pad-top-sm sec-pad-bottom text-center"
             >
               <h4>thank you for visiting.</h4>
-              <p class="mt-10">Santiago Morel © 2025 All rights reserved.</p>
+              <p class="mt-10">Santiago Morel © <span id="copyright-year"></span> All rights reserved.</p>
+              <script>document.getElementById('copyright-year').textContent = new Date().getFullYear();</script>
             </footer>
           </div>
         </div>

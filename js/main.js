@@ -6,7 +6,7 @@ $(document).ready(function () {
     setTimeout(() => {
       $("#loading-screen").remove();
     }, 800);
-  }, 1000);
+  }, 300);
 
   // Load components
   $("#header").load("header.html");
@@ -161,13 +161,10 @@ function setupScrollAnimations() {
 function setupMagneticEffects() {
   $(".magnetic-tag")
     .on("mouseenter", function () {
-      $(this).css(
-        "transform",
-        "scale(1.1) rotate(" + (Math.random() * 6 - 3) + "deg)"
-      );
+      $(this).css("transform", "translateY(-2px)");
     })
     .on("mouseleave", function () {
-      $(this).css("transform", "scale(1) rotate(0deg)");
+      $(this).css("transform", "translateY(0)");
     });
 
   // Enhanced card hover effects

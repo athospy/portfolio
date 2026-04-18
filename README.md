@@ -89,6 +89,12 @@ The portfolio is fully responsive with breakpoints for:
 3. Open `index.html` in a web server (required for jQuery .load() functionality)
 4. The site will automatically load all components via jQuery
 
+### 🚚 Deployment
+
+The repository includes an automated GitHub Actions deployment workflow for the production server.
+
+See `DEPLOYMENT.md` for the required GitHub Secrets and the SSH key setup steps.
+
 ### 🌟 Performance Features
 
 - **Modular Components**: Separated HTML files for better maintainability

@@ -6,7 +6,7 @@ $(document).ready(function () {
     setTimeout(() => {
       $("#loading-screen").remove();
     }, 800);
-  }, 1500);
+  }, 1000);
 
   // Load components
   $("#header").load("header.html");

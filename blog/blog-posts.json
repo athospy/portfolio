@@ -1,51 +1,17 @@
 [
   {
-    "id": "post-008",
-    "title": "Building with Claude Code & MCP",
-    "date": "2026-03-15",
-    "summary": "Hands-on with Claude Code and the Model Context Protocol — how I'm using AI-assisted development to move faster without sacrificing code quality.",
-    "embedUrl": "https://www.linkedin.com/embed/feed/update/urn:li:share:7459314720232361987",
-    "postUrl": "https://www.linkedin.com/feed/update/urn:li:share:7459314720232361987",
-    "tags": ["AI", "Claude", "MCP", "Development"],
-    "featured": true
-  },
-  {
-    "id": "post-009",
-    "title": "From CTO to Engineer: What Changed",
-    "date": "2026-02-20",
-    "summary": "Reflections on transitioning from a decade as CTO back to hands-on engineering — what I unlearned, what I rediscovered, and what surprised me.",
-    "embedUrl": "https://www.linkedin.com/embed/feed/update/urn:li:share:7444907219944402944",
-    "postUrl": "https://www.linkedin.com/feed/update/urn:li:share:7444907219944402944",
-    "tags": ["Career", "Leadership", "Engineering"],
-    "featured": false
-  },
-  {
-    "id": "post-010",
-    "title": "Lessons from Teaching Software Engineering",
-    "date": "2026-02-05",
-    "summary": "Teaching a graduate course taught me as much as my students. Here are the gaps I noticed in how we prepare engineers — and what actually works.",
-    "embedUrl": "https://www.linkedin.com/embed/feed/update/urn:li:share:7436447542579462144",
-    "postUrl": "https://www.linkedin.com/feed/update/urn:li:share:7436447542579462144",
-    "tags": ["Teaching", "Education", "Career"],
-    "featured": false
-  },
-  {
     "id": "post-001",
     "title": "Enhancing Our PSU Chatbot",
     "date": "2026-01-23",
-    "summary": "A deep dive into improving the PSU Chatbot — expanding its knowledge base, tuning the DialoGPT model, and making it more reliable for students.",
     "embedUrl": "https://www.linkedin.com/embed/feed/update/urn:li:share:7403089294585675776",
-    "postUrl": "https://www.linkedin.com/feed/update/urn:li:share:7403089294585675776",
     "tags": ["AI", "Machine Learning", "Chatbot", "Education"],
-    "featured": false
+    "featured": true
   },
   {
     "id": "post-002",
     "title": "Debugging and Building MCP",
     "date": "2026-01-17",
-    "summary": "Behind the scenes on building and debugging my first MCP server — the tricky parts, the aha moments, and why I think MCP is a big deal.",
     "embedUrl": "https://www.linkedin.com/embed/feed/update/urn:li:share:7398080639020896256",
-    "postUrl": "https://www.linkedin.com/feed/update/urn:li:share:7398080639020896256",
     "tags": ["Debugging", "MCP", "Development"],
     "featured": false
   },
@@ -53,9 +19,7 @@
     "id": "post-003",
     "title": "What I'm Building in 2025",
     "date": "2026-01-09",
-    "summary": "My roadmap for 2025: AI-powered tools, open-source contributions, and full-stack projects I want to ship. Sharing for accountability.",
     "embedUrl": "https://www.linkedin.com/embed/feed/update/urn:li:share:7392684867492249601",
-    "postUrl": "https://www.linkedin.com/feed/update/urn:li:share:7392684867492249601",
     "tags": ["AI", "Projects", "Career"],
     "featured": false
   },
@@ -63,9 +27,7 @@
     "id": "post-004",
     "title": "Graduate Teaching Experience",
     "date": "2025-06-30",
-    "summary": "Wrapping up my first semester as a Graduate Teaching Assistant at PSU — what worked in the classroom, what didn't, and how it's shaping how I write code.",
     "embedUrl": "https://www.linkedin.com/embed/feed/update/urn:li:share:7284687408111964160",
-    "postUrl": "https://www.linkedin.com/feed/update/urn:li:share:7284687408111964160",
     "tags": ["Teaching", "Education", "Career"],
     "featured": false
   },
@@ -73,9 +35,7 @@
     "id": "post-005",
     "title": "A New Journey",
     "date": "2025-06-18",
-    "summary": "Starting fresh: relocating to the USA, enrolling in an MS program, and returning to hands-on engineering after a decade in leadership roles.",
     "embedUrl": "https://www.linkedin.com/embed/feed/update/urn:li:share:7281815447782539265",
-    "postUrl": "https://www.linkedin.com/feed/update/urn:li:share:7281815447782539265",
     "tags": ["Career", "Personal Growth"],
     "featured": false
   },
@@ -83,9 +43,7 @@
     "id": "post-006",
     "title": "Milestone Achievement",
     "date": "2025-06-05",
-    "summary": "Hitting a 4.0 GPA in my first graduate semester while working and building side projects. On what discipline and consistency actually look like.",
     "embedUrl": "https://www.linkedin.com/embed/feed/update/urn:li:share:7278559075758469120",
-    "postUrl": "https://www.linkedin.com/feed/update/urn:li:share:7278559075758469120",
     "tags": ["Achievement", "Education"],
     "featured": false
   },
@@ -93,20 +51,8 @@
     "id": "post-007",
     "title": "Life Update",
     "date": "2025-05-14",
-    "summary": "After 10 years as CTO in Paraguay, I moved to the United States to pursue a master's degree and grow as a technologist. Here's why.",
     "embedUrl": "https://www.linkedin.com/embed/feed/update/urn:li:share:7271972367814311937",
-    "postUrl": "https://www.linkedin.com/feed/update/urn:li:share:7271972367814311937",
     "tags": ["Personal", "Career"],
-    "featured": false
-  },
-  {
-    "id": "post-011",
-    "title": "Early Thoughts on AI in Engineering",
-    "date": "2025-04-10",
-    "summary": "My first impressions of integrating AI tools into a real engineering workflow — what's actually useful, what's hype, and where I'm placing my bets.",
-    "embedUrl": "https://www.linkedin.com/embed/feed/update/urn:li:share:7268491043614937088",
-    "postUrl": "https://www.linkedin.com/feed/update/urn:li:share:7268491043614937088",
-    "tags": ["AI", "Engineering", "Tools"],
     "featured": false
   }
 ]

@@ -1,60 +1,62 @@
 <section id="projects_sec" class="projects-sec sec-pad-top-sm">
   <div>
-    <h2 class="section-title">Side Projects</h2>
+    <h2 class="section-title">Selected Projects</h2>
     <div class="projects-list">
 
       <div class="project-item">
         <h4>Artemisa</h4>
-        <p class="project-problem">Needed a flexible multi-category scoring system for competitions and events</p>
-        <p>A web app for managing scores across multiple categories. Supports complex scoring rules, multiple rounds, and real-time leaderboards.</p>
+        <p class="project-problem">Full-stack ownership — from schema design to production deployment</p>
+        <p>Built a Django + PostgreSQL scoring platform for multi-round competitions with dynamic category rules and live leaderboards. Sole developer: owned architecture, backend logic, frontend, and deployment end-to-end.</p>
         <div class="project-tech-pills">
           <span class="project-tech-pill">Django</span>
           <span class="project-tech-pill">JavaScript</span>
           <span class="project-tech-pill">PostgreSQL</span>
           <span class="project-tech-pill">Bootstrap</span>
         </div>
-        <p class="project-outcome">✓ Deployed and actively used for event management</p>
+        <p class="project-outcome">✓ Running in production, actively used for real events</p>
         <a href="http://artemisa.lajota.com.py/" target="_blank" class="project-demo-btn">Live Demo →</a>
       </div>
 
       <div class="project-item">
         <h4>Ardu</h4>
-        <p class="project-problem">Build a lightweight app to promote daily positivity and self-care routines</p>
-        <p>A mobile app delivering randomized messages to encourage mindfulness and positive habits throughout the day.</p>
+        <p class="project-problem">Prompt engineering + LLM evaluation pipeline on a self-hosted model</p>
+        <p>A working mobile app built as a real-world testbed for prompt engineering. Runs a 1.5B LLM locally via Ollama on a 2GB VPS — constraint-driven prompting was the core challenge. Built an 8B judge model evaluation framework to score outputs on relevance, originality, and clarity, plus a two-gate generation pipeline (lexical overlap + Jaccard similarity) to reject low-quality or near-duplicate outputs. Iterative tuning moved relevance scores from 1.6 → 2.3/3. Available on iOS and Android.</p>
         <div class="project-tech-pills">
           <span class="project-tech-pill">React Native</span>
           <span class="project-tech-pill">Node.js</span>
-          <span class="project-tech-pill">Firebase</span>
+          <span class="project-tech-pill">Ollama (LLM)</span>
+          <span class="project-tech-pill">PostgreSQL</span>
+          <span class="project-tech-pill">Prompt Engineering</span>
         </div>
-        <p class="project-outcome">✓ Live on web, delivers randomized affirmations on demand</p>
+        <p class="project-outcome">✓ Live on iOS TestFlight &amp; Android Beta — self-hosted LLM on a 2GB VPS</p>
         <a href="https://apps.santiagomorel.dev/ardu/" target="_blank" class="project-demo-btn">Live Demo →</a>
       </div>
 
       <div class="project-item">
         <h4>Gus Bus Plus</h4>
-        <p class="project-problem">No real-time visibility into PSU's internal shuttle system for students</p>
-        <p>A web app providing real-time bus status and route tracking for internal shuttles at Pittsburg State University, with live map integration.</p>
+        <p class="project-problem">Real-time data integration with Google Maps API and Firebase Firestore</p>
+        <p>Shuttle tracker for Pittsburg State University, syncs live bus positions via Firebase Firestore and renders them on an interactive Google Maps interface. Solved a real logistics gap for students on campus.</p>
         <div class="project-tech-pills">
           <span class="project-tech-pill">JavaScript</span>
           <span class="project-tech-pill">Google Maps API</span>
           <span class="project-tech-pill">Firebase Firestore</span>
           <span class="project-tech-pill">HTML/CSS</span>
         </div>
-        <p class="project-outcome">✓ Real-time route tracking serving the campus community</p>
+        <p class="project-outcome">✓ Deployed and actively used by the campus community</p>
         <a href="https://gusbusplus.santiagomorel.dev/" target="_blank" class="project-demo-btn">Live Demo →</a>
       </div>
 
       <div class="project-item">
         <h4>PSU Chatbot</h4>
-        <p class="project-problem">Students needed 24/7 answers to university-specific questions without staff overhead</p>
-        <p>An AI-powered chatbot built using Python and Hugging Face to answer student queries about Pittsburg State University — programs, policies, and campus resources. Trained on curated university data and deployed as a live web app.</p>
+        <p class="project-problem">Fine-tuned a transformer model on domain-specific data using Hugging Face</p>
+        <p>Hands-on ML project: fine-tuned microsoft/DialoGPT-small with the Hugging Face Transformers library on curated university Q&amp;A data. Covers programs, policies, and campus resources, deployed as a live web app.</p>
         <div class="project-tech-pills">
           <span class="project-tech-pill">Python</span>
           <span class="project-tech-pill">Hugging Face</span>
           <span class="project-tech-pill">PyTorch</span>
           <span class="project-tech-pill">NLP</span>
         </div>
-        <p class="project-outcome">✓ Built and deployed an AI-powered chatbot using Python, Hugging Face, and PyTorch</p>
+        <p class="project-outcome">✓ Domain-specific fine-tuned chatbot, deployed and live</p>
         <a href="https://chatbot.santiagomorel.dev/" target="_blank" class="project-demo-btn">Live Demo →</a>
       </div>
 

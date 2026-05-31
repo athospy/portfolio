@@ -81,6 +81,10 @@
       content="Experienced Full-Stack Software Engineer • AI/ML Enthusiast • Tech Leader with 15+ years of experience"
     />
     <meta property="og:type" content="profile" />
+    <!-- Preconnect to external image CDNs -->
+    <link rel="preconnect" href="https://avatars2.githubusercontent.com" crossorigin />
+    <!-- Preload LCP image -->
+    <link rel="preload" as="image" href="https://avatars2.githubusercontent.com/athospy?s=460&v=4" />
     <link rel="stylesheet" href="css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/material.min.css" />
     <link rel="stylesheet" href="css/fonts.css" />
@@ -105,7 +109,7 @@
         justify-content: center;
         align-items: center;
         z-index: 9999;
-        transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
+        transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
       }
 
       .loading-screen.fade-out {
@@ -266,15 +270,292 @@
         </div>
       </div>
 
-      <div class="mdl-js-layout mdl-layout--fixed-header">
-        <div id="header"></div>
-        <div id="drawer"></div>
+      <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <header class="mdl-layout__header">
+          <div class="mdl-layout__header-row mdl-scroll-spy-1">
+            <a href="index.html"
+              ><span class="mdl-layout-title">Santiago Morel</span></a
+            >
+            <div class="mdl-layout-spacer"></div>
+            <ul class="nav mdl-navigation mdl-layout--large-screen-only">
+              <li>
+                <a class="mdl-navigation__link" data-scroll href="#body">about</a>
+              </li>
+              <li>
+                <a class="mdl-navigation__link" data-scroll href="#experience_sec"
+                  >experience</a
+                >
+              </li>
+              <li>
+                <a class="mdl-navigation__link" data-scroll href="#portfolio_sec"
+                  >portfolio</a
+                >
+              </li>
+              <li>
+                <a class="mdl-navigation__link" data-scroll href="#interest_sec"
+                  >skills</a
+                >
+              </li>
+              <li>
+                <a class="mdl-navigation__link" data-scroll href="#project_sec"
+                  >project</a
+                >
+              </li>
+              <li>
+                <a class="mdl-navigation__link" href="blog/index.html"
+                  >blog</a
+                >
+              </li>
+              <li>
+                <a class="mdl-navigation__link" data-scroll href="#contact_sec"
+                  >contact</a
+                >
+              </li>
+            </ul>
+            <button
+              id="demo-menu-lower-right"
+              class="mdl-button mdl-js-button mdl-button--icon ver-more-btn"
+            >
+              <i class="material-icons">more_vert</i>
+            </button>
+            <ul
+              class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+              data-mdl-for="demo-menu-lower-right"
+            >
+              <li class="mdl-menu__item">
+                <a
+                  href="http://files.lajota.com.py/profile/resume.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  ><i class="zmdi zmdi-download font-red pr-10"></i>Download Resume</a
+                >
+              </li>
+              <li class="mdl-menu__item">
+                <a href="mailto:santi.morel@gmail.com"
+                  ><i class="zmdi zmdi-email-open font-green pr-10"></i>Drop me an
+                  Mail</a
+                >
+              </li>
+            </ul>
+          </div>
+        </header>
+        <div class="mdl-layout__drawer">
+          <div class="nicescroll-bar">
+            <div class="drawer-profile-wrap">
+              <div class="candidate-img-drawer mt-25 mb-20"></div>
+              <span class="candidate-name block mb-10 text-center">Santiago Morel</span>
+              <ul class="social-icons mb-30">
+                <li>
+                  <a
+                    class="facebook-link"
+                    href="https://www.facebook.com/santiagomorelberni/"
+                  >
+                    <i id="tt11" class="zmdi zmdi-facebook"></i>
+                    <div class="mdl-tooltip" data-mdl-for="tt11">facebook</div>
+                  </a>
+                </li>
+                <li>
+                  <a class="twitter-link" href="https://x.com/Santi_Berni">
+                    <i id="tt12" class="zmdi zmdi-twitter"></i>
+                    <div class="mdl-tooltip" data-mdl-for="tt12">twitter</div>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    class="linkedin-link"
+                    href="https://www.linkedin.com/in/santiagomorel/"
+                  >
+                    <i id="tt13" class="zmdi zmdi-linkedin"></i>
+                    <div class="mdl-tooltip" data-mdl-for="tt13">linkedin</div>
+                  </a>
+                </li>
+                <li>
+                  <a class="github-link" href="https://github.com/athospy">
+                    <i id="tt14" class="zmdi zmdi-github"></i>
+                    <div class="mdl-tooltip" data-mdl-for="tt14">github</div>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    class="instagram-link"
+                    href="https://www.instagram.com/santi_morel/"
+                  >
+                    <i id="tt15" class="zmdi zmdi-instagram"></i>
+                    <div class="mdl-tooltip" data-mdl-for="tt15">instagram</div>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="mdl-scroll-spy-2">
+              <ul class="mdl-navigation">
+                <li>
+                  <a
+                    class="mdl-navigation__link border-top-sep"
+                    data-scroll
+                    href="#body"
+                  >
+                    <i class="zmdi zmdi-border-color pr-15"></i>
+                    <span class="font-capitalize">about</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    class="mdl-navigation__link border-top-sep"
+                    data-scroll
+                    href="#experience_sec"
+                  >
+                    <i class="zmdi zmdi-time pr-15"></i>
+                    <span class="font-capitalize">experience</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    class="mdl-navigation__link border-top-sep"
+                    data-scroll
+                    href="#portfolio_sec"
+                  >
+                    <i class="zmdi zmdi-case pr-15"></i>
+                    <span class="font-capitalize">portfolio</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    class="mdl-navigation__link border-top-sep"
+                    data-scroll
+                    href="#interest_sec"
+                  >
+                    <i class="zmdi zmdi-settings pr-15"></i>
+                    <span class="font-capitalize">skills</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    class="mdl-navigation__link border-top-sep"
+                    data-scroll
+                    href="#project_sec"
+                  >
+                    <i class="zmdi zmdi-code pr-15"></i>
+                    <span class="font-capitalize">projects</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    class="mdl-navigation__link border-top-sep"
+                    href="blog/index.html"
+                  >
+                    <i class="zmdi zmdi-edit pr-15"></i>
+                    <span class="font-capitalize">blog</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    class="mdl-navigation__link border-top-sep border-bottom-sep"
+                    data-scroll
+                    href="#contact_sec"
+                  >
+                    <i class="zmdi zmdi-email pr-15"></i>
+                    <span class="font-capitalize">contact</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="drawer-footer mt-50 mb-30 text-center">
+              <p class="font-12 mt-10">Santiago Morel &copy; <script>document.write(new Date().getFullYear())</script>.</p>
+            </div>
+          </div>
+        </div>
         <div class="main-content relative">
           <div class="container" style="padding-top: 40px">
             <section
               id="section_intro"
               class="about-sec mt-30 mt-sm-20 mb-30"
-            ></section>
+            ><div class="row">
+  <div class="col-lg-12">
+    <div class="mdl-card mdl-shadow--2dp">
+      <div class="row">
+        <div class="col-md-5 col-xs-12 mb-30">
+          <img
+            class="candidate-img mb-35"
+            src="https://avatars2.githubusercontent.com/athospy?s=460&v=4"
+            alt="Profile of Santiago Morel"
+            fetchpriority="high"
+          />
+          <ul class="social-icons">
+            <li>
+              <a class="github-link" href="https://github.com/athospy">
+                <i id="tt4" class="zmdi zmdi-github"></i>
+                <div class="mdl-tooltip" data-mdl-for="tt4">github</div>
+              </a>
+            </li>
+            <li>
+              <a class="linkedin-link" href="https://www.linkedin.com/in/santiagomorel/">
+                <i id="tt3" class="zmdi zmdi-linkedin"></i>
+                <div class="mdl-tooltip" data-mdl-for="tt3">linkedin</div>
+              </a>
+            </li>
+            <li>
+              <a class="twitter-link" href="https://x.com/Santi_Berni">
+                <i id="tt2" class="zmdi zmdi-twitter"></i>
+                <div class="mdl-tooltip" data-mdl-for="tt2">twitter</div>
+              </a>
+            </li>
+            <li>
+              <a class="facebook-link" href="https://www.facebook.com/santiagomorelberni/">
+                <i id="tt1" class="zmdi zmdi-facebook"></i>
+                <div class="mdl-tooltip" data-mdl-for="tt1">facebook</div>
+              </a>
+            </li>
+            <li>
+              <a class="instagram-link" href="https://www.instagram.com/santi_morel/">
+                <i id="tt5" class="zmdi zmdi-instagram"></i>
+                <div class="mdl-tooltip" data-mdl-for="tt5">instagram</div>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-7 col-xs-12">
+          <div class="info-wrap">
+            <h1>Santiago Morel</h1>
+            <h5 class="mt-20 font-grey">
+              Full Stack Engineer &bull; Web &amp; Mobile Applications &bull; Startup-to-Production
+            </h5>
+            <p class="mt-20 font-light">
+              Full stack software engineer with 10+ years of experience building
+              and shipping web applications, mobile apps, and backend systems.
+              I work across the stack, frontend, backend, databases, and cloud,
+              and thrive in small teams where I can own features end-to-end.
+            </p>
+            <div class="mt-30">
+              <a
+                id="download_cv"
+                class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect bg-green font-white mr-10"
+                href="http://files.lajota.com.py/profile/resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Download Resume</a
+              >
+              <a
+                class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect bg-blue font-white"
+                href="#contact_sec"
+                data-scroll
+                >Get In Touch</a
+              >
+            </div>
+          </div>
+          <ul class="profile-wrap mt-50">
+            <li><div class="profile-title">📍 Location:</div>Pittsburg, KS, USA</li>
+            <li><div class="profile-title">🎓 Education:</div>Master of Science in Technology (Information Technology)<br />Pittsburg State University &bull; GPA: 4.0</li>
+            <li><div class="profile-title">💼 Experience:</div>10+ years shipping web and mobile applications</li>
+            <li><div class="profile-title">🛠 Focus:</div>Full Stack Development, APIs, Product Features, Web &amp; Mobile Apps</li>
+            <li><div class="profile-title">💡 Tech Stack:</div>Python, JavaScript, TypeScript, React, Next.js, Django, Laravel, AWS</li>
+            <li><div class="profile-title">🤝 Collaboration:</div>Worked with small dev teams across 50+ projects, from idea to deployment</li>
+            <li><div class="profile-title">⚡ Fun Fact:</div>Team 🍏 over 🪟 always! Also passionate about archery 🏹</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div></section>
 
             <div class="section-divider"></div>
 

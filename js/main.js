@@ -1,17 +1,14 @@
 $(document).ready(function () {
-  // Handle loading screen
+  // Handle loading screen — fade quickly so FCP is not delayed
   setTimeout(() => {
     $("#loading-screen").addClass("fade-out");
-    // Remove loading screen from DOM after fade out completes
     setTimeout(() => {
       $("#loading-screen").remove();
-    }, 800);
-  }, 300);
+    }, 300);
+  }, 50);
 
   // Load components
-  $("#header").load("header.html");
-  $("#drawer").load("drawer.html");
-  $("#section_intro").load("section_intro.html");
+  // section_intro is inlined in index.html for faster LCP
   $("#experience_sec").load("section_experience.html");
   $("#portfolio_sec").load("section_porfolio.html");
   $("#interest_sec").load("section_interest.html");

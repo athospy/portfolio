@@ -294,9 +294,74 @@
     <div class="main-wrapper">
       <div class="bg-struct bg-img parallax-bg"></div>
 
-      <div class="mdl-js-layout mdl-layout--fixed-header">
-        <div id="header"></div>
-        <div id="drawer"></div>
+      <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <header class="mdl-layout__header">
+          <div class="mdl-layout__header-row mdl-scroll-spy-1">
+            <a href="../index.html"
+              ><span class="mdl-layout-title">Santiago Morel</span></a
+            >
+            <div class="mdl-layout-spacer"></div>
+            <ul class="nav mdl-navigation mdl-layout--large-screen-only">
+              <li><a class="mdl-navigation__link" href="../index.html#body">about</a></li>
+              <li><a class="mdl-navigation__link" href="../index.html#experience_sec">experience</a></li>
+              <li><a class="mdl-navigation__link" href="../index.html#portfolio_sec">portfolio</a></li>
+              <li><a class="mdl-navigation__link" href="../index.html#interest_sec">skills</a></li>
+              <li><a class="mdl-navigation__link" href="../index.html#project_sec">project</a></li>
+              <li><a class="mdl-navigation__link" href="index.html">blog</a></li>
+              <li><a class="mdl-navigation__link" href="../index.html#contact_sec">contact</a></li>
+            </ul>
+            <button
+              id="demo-menu-lower-right"
+              class="mdl-button mdl-js-button mdl-button--icon ver-more-btn"
+            >
+              <i class="material-icons">more_vert</i>
+            </button>
+            <ul
+              class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+              data-mdl-for="demo-menu-lower-right"
+            >
+              <li class="mdl-menu__item">
+                <a href="http://files.lajota.com.py/profile/resume.pdf" target="_blank" rel="noopener noreferrer"
+                  ><i class="zmdi zmdi-download font-red pr-10"></i>Download Resume</a
+                >
+              </li>
+              <li class="mdl-menu__item">
+                <a href="mailto:santi.morel@gmail.com"
+                  ><i class="zmdi zmdi-email-open font-green pr-10"></i>Drop me an Mail</a
+                >
+              </li>
+            </ul>
+          </div>
+        </header>
+        <div class="mdl-layout__drawer">
+          <div class="nicescroll-bar">
+            <div class="drawer-profile-wrap">
+              <div class="candidate-img-drawer mt-25 mb-20"></div>
+              <span class="candidate-name block mb-10 text-center">Santiago Morel</span>
+              <ul class="social-icons mb-30">
+                <li><a class="facebook-link" href="https://www.facebook.com/santiagomorelberni/"><i id="tt11" class="zmdi zmdi-facebook"></i><div class="mdl-tooltip" data-mdl-for="tt11">facebook</div></a></li>
+                <li><a class="twitter-link" href="https://x.com/Santi_Berni"><i id="tt12" class="zmdi zmdi-twitter"></i><div class="mdl-tooltip" data-mdl-for="tt12">twitter</div></a></li>
+                <li><a class="linkedin-link" href="https://www.linkedin.com/in/santiagomorel/"><i id="tt13" class="zmdi zmdi-linkedin"></i><div class="mdl-tooltip" data-mdl-for="tt13">linkedin</div></a></li>
+                <li><a class="github-link" href="https://github.com/athospy"><i id="tt14" class="zmdi zmdi-github"></i><div class="mdl-tooltip" data-mdl-for="tt14">github</div></a></li>
+                <li><a class="instagram-link" href="https://www.instagram.com/santi_morel/"><i id="tt15" class="zmdi zmdi-instagram"></i><div class="mdl-tooltip" data-mdl-for="tt15">instagram</div></a></li>
+              </ul>
+            </div>
+            <div class="mdl-scroll-spy-2">
+              <ul class="mdl-navigation">
+                <li><a class="mdl-navigation__link border-top-sep" href="../index.html#body"><i class="zmdi zmdi-border-color pr-15"></i><span class="font-capitalize">about</span></a></li>
+                <li><a class="mdl-navigation__link border-top-sep" href="../index.html#experience_sec"><i class="zmdi zmdi-time pr-15"></i><span class="font-capitalize">experience</span></a></li>
+                <li><a class="mdl-navigation__link border-top-sep" href="../index.html#portfolio_sec"><i class="zmdi zmdi-case pr-15"></i><span class="font-capitalize">portfolio</span></a></li>
+                <li><a class="mdl-navigation__link border-top-sep" href="../index.html#interest_sec"><i class="zmdi zmdi-settings pr-15"></i><span class="font-capitalize">skills</span></a></li>
+                <li><a class="mdl-navigation__link border-top-sep" href="../index.html#project_sec"><i class="zmdi zmdi-code pr-15"></i><span class="font-capitalize">projects</span></a></li>
+                <li><a class="mdl-navigation__link border-top-sep" href="index.html"><i class="zmdi zmdi-edit pr-15"></i><span class="font-capitalize">blog</span></a></li>
+                <li><a class="mdl-navigation__link border-top-sep border-bottom-sep" href="../index.html#contact_sec"><i class="zmdi zmdi-email pr-15"></i><span class="font-capitalize">contact</span></a></li>
+              </ul>
+            </div>
+            <div class="drawer-footer mt-50 mb-30 text-center">
+              <p class="font-12 mt-10">Santiago Morel &copy; <script>document.write(new Date().getFullYear())</script>.</p>
+            </div>
+          </div>
+        </div>
 
         <div class="main-content relative">
           <div class="container" style="padding-top: 80px">
@@ -522,28 +587,6 @@
     <script src="../js/blog.js"></script>
     <script>
       $(document).ready(function () {
-        // Load header and drawer
-        $("#header").load("../header.html", function() {
-          // Fix navigation links to point back to main portfolio page
-          $("#header a[data-scroll]").each(function() {
-            const href = $(this).attr("href");
-            if (href && href.startsWith("#")) {
-              $(this).attr("href", "../index.html" + href);
-              $(this).removeAttr("data-scroll");
-            }
-          });
-        });
-        
-        $("#drawer").load("../drawer.html", function() {
-          // Fix navigation links to point back to main portfolio page
-          $("#drawer a[data-scroll]").each(function() {
-            const href = $(this).attr("href");
-            if (href && href.startsWith("#")) {
-              $(this).attr("href", "../index.html" + href);
-              $(this).removeAttr("data-scroll");
-            }
-          });
-        });
       });
 
       // Hide iframe loaders when loaded

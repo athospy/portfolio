@@ -15,13 +15,10 @@ python3 -m http.server 8080
 
 ## Architecture
 
-`index.html` is a thin shell. On load, jQuery fetches and injects the section files into named `<div>` placeholders:
+`index.html` is a thin shell. The header, drawer (mobile nav), and intro section are **inlined directly** in `index.html`. On load, jQuery fetches and injects the remaining section files:
 
 | Placeholder | File loaded |
 |---|---|
-| `#header` | `header.html` |
-| `#drawer` | `drawer.html` (mobile nav) |
-| `#section_intro` | `section_intro.html` |
 | `#experience_sec` | `section_experience.html` |
 | `#portfolio_sec` | `section_porfolio.html` |
 | `#interest_sec` | `section_interest.html` |
@@ -42,11 +39,11 @@ Individual project detail pages (`project_ardu.html`, `project_artemisa.html`, `
 
 ### JavaScript
 
-- `js/main.js` — component loader + all interactive effects (particles, scroll animations, FAB, typewriter, magnetic hover)
+- `js/main.js` — component loader + scroll animations + smooth scrolling
 - `js/blog.js` — blog page renderer
 - `js/jquery-3.5.1.min.js`, `js/material.min.js` — vendor files (do not edit)
 
-The interactive effects in `main.js` are initialized via `initModernEffects()` with a 3-second delay to allow all `.load()` calls to complete before querying the DOM.
+`initModernEffects()` fires after a 3-second delay (to let all `.load()` calls complete) and sets up scroll-reveal animations via `IntersectionObserver` and smooth anchor scrolling.
 
 ## Deployment
 

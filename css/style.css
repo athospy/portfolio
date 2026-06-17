@@ -620,6 +620,9 @@ p {
 .contact-sec .social-icons li a.linkedin-link i {
   background-color: #007bb6;
 }
+.contact-sec .social-icons li a.email-link i {
+  background-color: var(--accent);
+}
 .contact-sec .social-icons li a.github-link i {
   background-color: #f1502f;
 }

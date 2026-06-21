@@ -29,7 +29,11 @@ Individual project detail pages (`project_ardu.html`, `project_artemisa.html`, `
 
 ### Blog
 
-`blog/index.html` is a separate standalone page (not injected into the main shell). It loads `blog/blog-posts.json` via `js/blog.js` and renders each entry as an embedded LinkedIn iframe. To add a new post, append an entry to `blog-posts.json` — no HTML changes needed.
+`blog/index.html` is a separate standalone page (not injected into the main shell). LinkedIn post embeds are hardcoded directly as `<iframe>` elements inside the HTML — there is no JSON-driven renderer. To add a new post, paste the LinkedIn embed `<iframe>` wrapped in a `<div class="li-embed">` block. (`js/blog.js` exists but is unused — it was an early design that was never wired up and should be deleted.)
+
+### Books
+
+`books/index.html` is a separate standalone page following the same pattern as the blog. Goodreads "Blog This Review" embed snippets are hardcoded directly as HTML inside `<div class="gr-embed">` blocks. To add or edit a book, edit the HTML directly. All 20 embed snippets are also stored in `internal-docs/books-embed-collection.md` for reference.
 
 ### CSS / Styling
 
@@ -40,7 +44,7 @@ Individual project detail pages (`project_ardu.html`, `project_artemisa.html`, `
 ### JavaScript
 
 - `js/main.js` — component loader + scroll animations + smooth scrolling
-- `js/blog.js` — blog page renderer
+- `js/blog.js` — unused; can be deleted (blog page hardcodes iframes directly)
 - `js/jquery-3.5.1.min.js`, `js/material.min.js` — vendor files (do not edit)
 
 `initModernEffects()` fires after a 3-second delay (to let all `.load()` calls complete) and sets up scroll-reveal animations via `IntersectionObserver` and smooth anchor scrolling.

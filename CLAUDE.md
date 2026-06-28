@@ -29,7 +29,7 @@ Individual project detail pages (`project_ardu.html`, `project_artemisa.html`, `
 
 ### Blog
 
-`blog/index.html` is a separate standalone page (not injected into the main shell). LinkedIn post embeds are hardcoded directly as `<iframe>` elements inside the HTML — there is no JSON-driven renderer. To add a new post, paste the LinkedIn embed `<iframe>` wrapped in a `<div class="li-embed">` block. (`js/blog.js` exists but is unused — it was an early design that was never wired up and should be deleted.)
+`blog/index.html` is a separate standalone page (not injected into the main shell). LinkedIn post embeds are hardcoded directly as `<iframe>` elements inside the HTML — there is no JSON-driven renderer. To add a new post, paste the LinkedIn embed `<iframe>` wrapped in a `<div class="li-embed">` block.
 
 ### Books
 
@@ -44,7 +44,6 @@ Individual project detail pages (`project_ardu.html`, `project_artemisa.html`, `
 ### JavaScript
 
 - `js/main.js` — component loader + scroll animations + smooth scrolling
-- `js/blog.js` — unused; can be deleted (blog page hardcodes iframes directly)
 - `js/jquery-3.5.1.min.js`, `js/material.min.js` — vendor files (do not edit)
 
 `initModernEffects()` fires after a 3-second delay (to let all `.load()` calls complete) and sets up scroll-reveal animations via `IntersectionObserver` and smooth anchor scrolling.

@@ -15,7 +15,7 @@ python3 -m http.server 8080
 
 ## Architecture
 
-`index.html` is a thin shell. The header, drawer (mobile nav), and intro section are **inlined directly** in `index.html`. On load, jQuery fetches and injects the remaining section files:
+`index.html` is a thin shell. The header, drawer (mobile nav), and intro section are **inlined directly** in `index.html` (there is no separate `header.html`/`drawer.html` — each standalone page carries its own inline copy). On load, jQuery fetches and injects the remaining section files:
 
 | Placeholder | File loaded |
 |---|---|
@@ -25,7 +25,7 @@ python3 -m http.server 8080
 | `#project_sec` | `section_project.html` |
 | `#contact_sec` | `section_contact.html` |
 
-Individual project detail pages (`project_ardu.html`, `project_artemisa.html`, `project_sorteador.html`) exist as standalone files and are also `.load()`-ed into their respective containers.
+Projects in `section_project.html` are cards that link straight to each project's external "Live Demo" URL — there are no separate in-repo project detail pages.
 
 ### Blog
 

@@ -49,15 +49,14 @@ This portfolio website has been significantly enhanced with modern features and 
 
 ```
 portfolio/
-├── index.html                 # Main page
-├── header.html               # Navigation header
-├── drawer.html               # Mobile navigation drawer
-├── section_intro.html        # About/intro section
+├── index.html                 # Main page (header, drawer, intro inlined directly)
 ├── section_experience.html   # Professional experience
 ├── section_interest.html     # Skills and interests
-├── section_porfolio.html     # Portfolio showcase
-├── section_project.html      # Projects section
+├── section_porfolio.html     # "What I Do" showcase
+├── section_project.html      # Projects section (cards link to external live demos)
 ├── section_contact.html      # Contact information
+├── blog/index.html           # Standalone blog page (LinkedIn embeds)
+├── books/index.html          # Standalone books page (Goodreads embeds)
 ├── css/
 │   └── style.css            # Enhanced styles with modern features
 ├── js/

@@ -11,5 +11,7 @@ node_modules/
 # package-lock file
 package-lock.json
 
+# macOS
+.DS_Store
 
 internal-docs/

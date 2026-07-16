@@ -11,18 +11,8 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://santiagomorel.dev/project_ardu.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://santiagomorel.dev/project_artemisa.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://santiagomorel.dev/project_sorteador.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <loc>https://santiagomorel.dev/books/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
 </urlset>

@@ -5,9 +5,6 @@ $(document).ready(function () {
   $("#interest_sec").load("section_interest.html");
   $("#project_sec").load("section_project.html");
   $("#contact_sec").load("section_contact.html");
-  $("#project_artemisa").load("project_artemisa.html");
-  $("#project_ardu").load("project_ardu.html");
-  $("#project_sorteador").load("project_sorteador.html");
 
   setTimeout(initModernEffects, 3000);
 });
@@ -25,6 +22,7 @@ function setupScrollAnimations() {
           entry.target.style.animation = "slideInUp 0.6s ease-out";
           entry.target.style.opacity = "1";
           entry.target.classList.add("revealed");
+          observer.unobserve(entry.target);
         }
       });
     },
@@ -32,6 +30,17 @@ function setupScrollAnimations() {
   );
 
   $("section").each(function () {
+    // Sections already on screen by the time this runs (3s after load,
+    // so AJAX-loaded sections have content) shouldn't be hidden and
+    // replayed — that causes a visible flash/blink of already-read content.
+    const rect = this.getBoundingClientRect();
+    const alreadyVisible = rect.top < window.innerHeight && rect.bottom > 0;
+
+    if (alreadyVisible) {
+      this.classList.add("revealed");
+      return;
+    }
+
     this.style.opacity = "0";
     observer.observe(this);
   });

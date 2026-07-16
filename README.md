@@ -93,7 +93,7 @@ The portfolio is fully responsive with breakpoints for:
 
 The repository includes an automated GitHub Actions deployment workflow for the production server.
 
-See `DEPLOYMENT.md` for the required GitHub Secrets and the SSH key setup steps.
+Deployment is configured via GitHub Secrets and rsyncs to the production server on every push to `main`. See `.github/workflows/deploy.yml` for the workflow itself.
 
 ### 🌟 Performance Features
 

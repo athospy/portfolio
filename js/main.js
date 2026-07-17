@@ -1,7 +1,7 @@
 $(document).ready(function () {
   // section_intro is inlined in index.html for faster LCP
   $("#experience_sec").load("section_experience.html");
-  $("#portfolio_sec").load("section_porfolio.html");
+  $("#portfolio_sec").load("section_portfolio.html");
   $("#interest_sec").load("section_interest.html");
   $("#project_sec").load("section_project.html");
   $("#contact_sec").load("section_contact.html");

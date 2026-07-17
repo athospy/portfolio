@@ -20,7 +20,7 @@ python3 -m http.server 8080
 | Placeholder | File loaded |
 |---|---|
 | `#experience_sec` | `section_experience.html` |
-| `#portfolio_sec` | `section_porfolio.html` |
+| `#portfolio_sec` | `section_portfolio.html` |
 | `#interest_sec` | `section_interest.html` |
 | `#project_sec` | `section_project.html` |
 | `#contact_sec` | `section_contact.html` |

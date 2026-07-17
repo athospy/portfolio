@@ -52,7 +52,7 @@ portfolio/
 ├── index.html                 # Main page (header, drawer, intro inlined directly)
 ├── section_experience.html   # Professional experience
 ├── section_interest.html     # Skills and interests
-├── section_porfolio.html     # "What I Do" showcase
+├── section_portfolio.html    # "What I Do" showcase
 ├── section_project.html      # Projects section (cards link to external live demos)
 ├── section_contact.html      # Contact information
 ├── blog/index.html           # Standalone blog page (LinkedIn embeds)

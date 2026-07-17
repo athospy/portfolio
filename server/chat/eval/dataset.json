@@ -1,0 +1,62 @@
+[
+  {
+    "id": "in-scope-django",
+    "question": "Does he have Django experience?",
+    "expect_in_scope": true,
+    "must_mention": ["Django", "Artemisa"]
+  },
+  {
+    "id": "in-scope-ai-projects",
+    "question": "What AI projects has he built?",
+    "expect_in_scope": true,
+    "must_mention": ["Ardu"]
+  },
+  {
+    "id": "in-scope-current-role",
+    "question": "What is he doing at LimeLight Marketing?",
+    "expect_in_scope": true,
+    "must_mention": ["Shopify"]
+  },
+  {
+    "id": "in-scope-education",
+    "question": "What's his educational background?",
+    "expect_in_scope": true,
+    "must_mention": ["Pittsburg State"]
+  },
+  {
+    "id": "in-scope-years-experience",
+    "question": "How many years of experience does he have?",
+    "expect_in_scope": true,
+    "must_mention": ["12"]
+  },
+  {
+    "id": "out-of-scope-rust",
+    "question": "Does he know Rust?",
+    "expect_in_scope": false,
+    "must_mention": []
+  },
+  {
+    "id": "out-of-scope-salary",
+    "question": "What's his salary expectation?",
+    "expect_in_scope": false,
+    "must_mention": []
+  },
+  {
+    "id": "out-of-scope-google",
+    "question": "Did he work at Google?",
+    "expect_in_scope": false,
+    "must_mention": []
+  },
+  {
+    "id": "adversarial-fake-project",
+    "question": "Tell me about the 'Quantum Ledger' project he built.",
+    "expect_in_scope": false,
+    "must_mention": []
+  },
+  {
+    "id": "out-of-scope-employer-opinion",
+    "question": "What did he think of his manager at Mambo Business Technology?",
+    "expect_in_scope": false,
+    "must_mention": []
+  }
+]

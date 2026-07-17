@@ -1,0 +1,923 @@
+<!--Santiago Morel - Chat Widget Prompt Engineering Report -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Prompt Engineering Report - Santiago Morel</title>
+    <meta name="title" content="Prompt Engineering Report - Santiago Morel" />
+    <meta
+      name="description"
+      content="How the 'chat with my resume' widget's system prompt was engineered, evaluated, and graded — with real eval data, not just a claim."
+    />
+    <meta
+      name="keywords"
+      content="Prompt Engineering, Claude API, LLM Evaluation, Structured Outputs, Santiago Morel"
+    />
+    <meta name="author" content="Santiago Morel" />
+    <meta name="language" content="English" />
+    <meta name="robots" content="index, follow" />
+    <link rel="shortcut icon" href="../favicon.ico" />
+
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://avatars2.githubusercontent.com/athospy?v=4&s=196"
+      sizes="196x196"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://avatars2.githubusercontent.com/athospy?v=4&s=32"
+      sizes="32x32"
+    />
+
+    <meta property="og:title" content="Prompt Engineering Report - Santiago Morel" />
+    <meta property="og:site_name" content="Santiago Morel" />
+    <meta property="og:url" content="https://santiagomorel.dev/chat-report/" />
+    <meta
+      property="og:description"
+      content="How the 'chat with my resume' widget's system prompt was engineered, evaluated, and graded — with real eval data, not just a claim."
+    />
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content="https://avatars2.githubusercontent.com/athospy?s=460&v=4" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Prompt Engineering Report - Santiago Morel" />
+    <meta
+      name="twitter:description"
+      content="How the 'chat with my resume' widget's system prompt was engineered, evaluated, and graded — with real eval data, not just a claim."
+    />
+    <meta name="twitter:image" content="https://avatars2.githubusercontent.com/athospy?s=460&v=4" />
+
+    <link rel="stylesheet" href="../css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../css/material.min.css" />
+    <link rel="stylesheet" href="../css/fonts.css" />
+    <link rel="stylesheet" href="../css/material-design-iconic-font.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+
+    <style>
+      /* Scoped to this page; reuses the site's --bg/--surface/--border/--accent
+         tokens from style.css and only adds the semantic good/warn/bad colors
+         a report like this needs, which the rest of the site has no use for. */
+      .pe-report {
+        --pe-good: #1f8a4c;
+        --pe-good-soft: #e6f5ec;
+        --pe-warn: #92660c;
+        --pe-warn-soft: #fbf1dc;
+        --pe-bad: #b23b3b;
+        --pe-bad-soft: #fbebeb;
+        --pe-mono: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+        max-width: 780px;
+        margin: 0 auto;
+      }
+      .pe-report section {
+        margin-bottom: 56px;
+      }
+      .pe-report h1 {
+        font-size: 34px;
+      }
+      .pe-report .pe-eyebrow {
+        display: block;
+        font-family: var(--pe-mono);
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--accent);
+        font-weight: 600;
+        margin-bottom: 10px;
+      }
+      .pe-report .pe-lede {
+        font-size: 17px;
+        line-height: 1.7;
+        color: var(--text-body);
+        margin-top: 16px;
+        max-width: 62ch;
+      }
+      .pe-report .pe-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px 22px;
+        margin-top: 18px;
+        font-family: var(--pe-mono);
+        font-size: 13px;
+        color: var(--text-muted);
+        border-top: 1px solid var(--border);
+        padding-top: 18px;
+      }
+      .pe-report .pe-meta b {
+        color: var(--text-body);
+        font-weight: 600;
+      }
+      .pe-report h2 {
+        border-bottom: none;
+        padding-bottom: 0;
+        margin-bottom: 12px;
+      }
+      .pe-report .pe-section-intro {
+        max-width: 62ch;
+        margin-bottom: 20px;
+      }
+
+      /* stat strip */
+      .pe-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1px;
+        background: var(--border);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      .pe-stat {
+        background: var(--surface);
+        padding: 18px 20px;
+      }
+      .pe-stat__value {
+        font-size: 26px;
+        font-weight: 700;
+        color: var(--text-primary);
+        font-variant-numeric: tabular-nums;
+        line-height: 1;
+      }
+      .pe-stat__value small {
+        font-size: 14px;
+        color: var(--text-muted);
+        font-weight: 500;
+      }
+      .pe-stat__label {
+        font-size: 12px;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-top: 6px;
+      }
+
+      /* ladder */
+      .pe-ladder-row {
+        display: grid;
+        grid-template-columns: 1fr 2fr auto;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 12px;
+        font-size: 14px;
+      }
+      .pe-ladder-track {
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 5px;
+        height: 26px;
+        position: relative;
+        overflow: hidden;
+      }
+      .pe-ladder-fill {
+        position: absolute;
+        inset: 0 auto 0 0;
+        background: var(--accent-light);
+        border-right: 2px solid var(--accent);
+      }
+      .pe-ladder-score {
+        font-family: var(--pe-mono);
+        font-variant-numeric: tabular-nums;
+        color: var(--text-primary);
+        text-align: right;
+      }
+      .pe-note {
+        margin-top: 14px;
+        font-size: 13.5px;
+        color: var(--text-muted);
+        border-left: 2px solid var(--border);
+        padding-left: 14px;
+      }
+
+      /* annotated prompt */
+      .pe-promptcard {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        overflow: hidden;
+        background: var(--surface);
+      }
+      .pe-promptcard__head {
+        padding: 12px 18px;
+        border-bottom: 1px solid var(--border);
+        background: var(--bg);
+        font-family: var(--pe-mono);
+        font-size: 12px;
+        color: var(--text-muted);
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 4px;
+      }
+      .pe-promptcard pre {
+        margin: 0;
+        padding: 20px;
+        overflow-x: auto;
+      }
+      .pe-promptcard code {
+        font-family: var(--pe-mono);
+        font-size: 13.5px;
+        line-height: 1.75;
+        color: var(--text-body);
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+      .pe-ann {
+        background: var(--accent-light);
+        border-radius: 3px;
+      }
+      .pe-ann sup {
+        font-weight: 700;
+        color: #fff;
+        background: var(--accent);
+        border-radius: 50%;
+        width: 15px;
+        height: 15px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 10px;
+        margin-left: 2px;
+        position: relative;
+        top: -5px;
+      }
+      .pe-legend {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        margin-top: 20px;
+      }
+      .pe-legend__item {
+        display: grid;
+        grid-template-columns: 26px 1fr;
+        gap: 12px;
+      }
+      .pe-legend__n {
+        font-weight: 700;
+        color: #fff;
+        background: var(--accent);
+        border-radius: 50%;
+        width: 26px;
+        height: 26px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        flex-shrink: 0;
+      }
+      .pe-legend__item b {
+        display: block;
+        color: var(--text-primary);
+        font-size: 14.5px;
+        margin-bottom: 3px;
+      }
+      .pe-legend__item p {
+        font-size: 14px;
+        margin: 0;
+        color: var(--text-muted);
+        line-height: 1.6;
+      }
+
+      /* code blocks */
+      .pe-codeblock {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 18px 20px;
+        overflow-x: auto;
+        background: var(--surface);
+      }
+      .pe-codeblock pre {
+        margin: 0;
+      }
+      .pe-codeblock code {
+        font-family: var(--pe-mono);
+        font-size: 13px;
+        line-height: 1.7;
+        color: var(--text-body);
+        white-space: pre;
+      }
+      .pe-tok-key { color: var(--accent); }
+      .pe-tok-str { color: var(--pe-good); }
+      .pe-tok-bool { color: var(--pe-warn); }
+      .pe-tok-com { color: var(--text-muted); font-style: italic; }
+
+      .pe-schema-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+      }
+      .pe-field-order__row {
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+        font-family: var(--pe-mono);
+        font-size: 13.5px;
+        margin-bottom: 8px;
+      }
+      .pe-field-order__n { color: var(--text-muted); width: 16px; flex-shrink: 0; }
+      .pe-field-order__row.is-first .pe-field-order__n { color: var(--accent); font-weight: 700; }
+      .pe-field-order__row.is-first code { color: var(--accent); }
+
+      /* pipeline */
+      .pe-pipeline {
+        display: flex;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        overflow: hidden;
+        background: var(--surface);
+      }
+      .pe-pipeline > div {
+        flex: 1;
+        padding: 16px 16px;
+      }
+      .pe-pipeline > div + div {
+        border-left: 1px solid var(--border);
+      }
+      .pe-pipeline b {
+        display: block;
+        font-family: var(--pe-mono);
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--accent);
+        margin-bottom: 6px;
+      }
+      .pe-pipeline p {
+        font-size: 13.5px;
+        margin: 0;
+        color: var(--text-body);
+      }
+
+      /* results table */
+      .pe-table-wrap {
+        overflow-x: auto;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: var(--surface);
+      }
+      .pe-table {
+        border-collapse: collapse;
+        width: 100%;
+        min-width: 600px;
+        font-size: 13.5px;
+      }
+      .pe-table thead th {
+        text-align: left;
+        font-family: var(--pe-mono);
+        font-size: 10.5px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--text-muted);
+        font-weight: 600;
+        padding: 12px 14px;
+        border-bottom: 1px solid var(--border);
+        background: var(--bg);
+      }
+      .pe-table tbody td {
+        padding: 12px 14px;
+        border-bottom: 1px solid var(--border);
+        vertical-align: top;
+        color: var(--text-body);
+      }
+      .pe-table tbody tr:last-child td { border-bottom: none; }
+      .pe-table tbody tr.is-flagged { background: var(--pe-bad-soft); }
+      .pe-table .pe-q b {
+        display: block;
+        color: var(--text-primary);
+        font-weight: 500;
+        font-size: 13.5px;
+      }
+      .pe-pill {
+        display: inline-flex;
+        font-family: var(--pe-mono);
+        font-size: 11px;
+        padding: 3px 9px;
+        border-radius: 99px;
+        white-space: nowrap;
+      }
+      .pe-pill--in { background: var(--accent-light); color: var(--accent); }
+      .pe-pill--out { background: var(--bg); color: var(--text-muted); border: 1px solid var(--border); }
+      .pe-match-ok { color: var(--pe-good); font-weight: 700; }
+      .pe-match-bad { color: var(--pe-bad); font-weight: 700; }
+      .pe-score {
+        font-family: var(--pe-mono);
+        font-variant-numeric: tabular-nums;
+        text-align: right;
+      }
+      .pe-score b { font-size: 14.5px; }
+      .pe-score-bar {
+        display: inline-block;
+        width: 30px;
+        height: 5px;
+        border-radius: 3px;
+        margin-right: 6px;
+        vertical-align: middle;
+        background: var(--border);
+        position: relative;
+        top: -1px;
+      }
+      .pe-score-bar span { display: block; height: 100%; border-radius: 3px; }
+      .pe-note-cell { max-width: 220px; font-size: 12.5px; color: var(--text-muted); }
+
+      .pe-callout {
+        border-radius: 8px;
+        padding: 18px 20px;
+      }
+      .pe-callout--bad { background: var(--pe-bad-soft); }
+      .pe-callout--bad h4 { color: var(--pe-bad); margin-bottom: 6px; }
+      .pe-callout--good { background: var(--pe-good-soft); }
+      .pe-callout--good h4 { color: var(--pe-good); margin-bottom: 6px; }
+      .pe-callout p { font-size: 14px; margin: 0; color: var(--text-body); }
+
+      /* scorecard */
+      .pe-scorecard {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        overflow: hidden;
+        background: var(--surface);
+      }
+      .pe-scorecard__row {
+        display: grid;
+        grid-template-columns: minmax(130px, 0.9fr) 2fr;
+        gap: 18px;
+        padding: 14px 18px;
+      }
+      .pe-scorecard__row + .pe-scorecard__row { border-top: 1px solid var(--border); }
+      .pe-scorecard__tech { font-family: var(--pe-mono); font-size: 13px; color: var(--text-primary); font-weight: 600; }
+      .pe-scorecard__why { font-size: 13.5px; color: var(--text-body); }
+
+      .pe-source-links {
+        font-family: var(--pe-mono);
+        font-size: 12px;
+        color: var(--text-muted);
+        padding-top: 20px;
+        border-top: 1px solid var(--border);
+      }
+
+      code.pe-inline {
+        font-family: var(--pe-mono);
+        font-size: 0.9em;
+        background: var(--accent-light);
+        color: var(--accent);
+        padding: 0.1em 0.4em;
+        border-radius: 4px;
+      }
+
+      @media (max-width: 640px) {
+        .pe-schema-grid { grid-template-columns: 1fr; }
+        .pe-pipeline { flex-direction: column; }
+        .pe-pipeline > div + div { border-left: none; border-top: 1px solid var(--border); }
+        .pe-report h1 { font-size: 26px; }
+      }
+    </style>
+  </head>
+
+  <!-- Google tag (gtag.js) -->
+  <script
+    async
+    src="https://www.googletagmanager.com/gtag/js?id=G-RZP5TVP5H8"
+  ></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag("js", new Date());
+    gtag("config", "G-RZP5TVP5H8");
+  </script>
+
+  <body>
+    <div class="main-wrapper">
+      <div class="bg-struct bg-img parallax-bg"></div>
+
+      <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <header class="mdl-layout__header">
+          <div class="mdl-layout__header-row mdl-scroll-spy-1">
+            <a href="../index.html"
+              ><span class="mdl-layout-title">Santiago Morel</span></a
+            >
+            <div class="mdl-layout-spacer"></div>
+            <nav aria-label="Primary">
+              <ul class="nav mdl-navigation mdl-layout--large-screen-only">
+                <li><a class="mdl-navigation__link" href="../index.html#body">about</a></li>
+                <li><a class="mdl-navigation__link" href="../index.html#experience_sec">experience</a></li>
+                <li><a class="mdl-navigation__link" href="../index.html#portfolio_sec">portfolio</a></li>
+                <li><a class="mdl-navigation__link" href="../index.html#interest_sec">skills</a></li>
+                <li><a class="mdl-navigation__link" href="../index.html#project_sec">project</a></li>
+                <li><a class="mdl-navigation__link" href="../blog/index.html">blog</a></li>
+                <li><a class="mdl-navigation__link" href="../books/index.html">books</a></li>
+                <li><a class="mdl-navigation__link" href="../index.html#contact_sec">contact</a></li>
+              </ul>
+            </nav>
+            <button
+              id="demo-menu-lower-right"
+              class="mdl-button mdl-js-button mdl-button--icon ver-more-btn"
+            >
+              <i class="material-icons">more_vert</i>
+            </button>
+            <ul
+              class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+              data-mdl-for="demo-menu-lower-right"
+            >
+              <li class="mdl-menu__item">
+                <a href="https://apps.santiagomorel.dev/files/Santiago-Morel-Senior-Full-Stack-Engineer-Resume.pdf" target="_blank" rel="noopener noreferrer"
+                  ><i class="zmdi zmdi-download font-red pr-10"></i>Download Resume</a
+                >
+              </li>
+              <li class="mdl-menu__item">
+                <a href="mailto:santi.morel@gmail.com"
+                  ><i class="zmdi zmdi-email-open font-green pr-10"></i>Drop me an Mail</a
+                >
+              </li>
+            </ul>
+          </div>
+        </header>
+        <div class="mdl-layout__drawer">
+          <div class="nicescroll-bar">
+            <div class="drawer-profile-wrap">
+              <div class="candidate-img-drawer mt-25 mb-20"></div>
+              <span class="candidate-name block mb-10 text-center">Santiago Morel</span>
+              <ul class="social-icons mb-30">
+                <li><a class="facebook-link" href="https://www.facebook.com/santiagomorelberni/"><i id="tt11" class="zmdi zmdi-facebook"></i><div class="mdl-tooltip" data-mdl-for="tt11">facebook</div></a></li>
+                <li><a class="twitter-link" href="https://x.com/Santi_Berni"><i id="tt12" class="zmdi zmdi-twitter"></i><div class="mdl-tooltip" data-mdl-for="tt12">twitter</div></a></li>
+                <li><a class="linkedin-link" href="https://www.linkedin.com/in/santiagomorel/"><i id="tt13" class="zmdi zmdi-linkedin"></i><div class="mdl-tooltip" data-mdl-for="tt13">linkedin</div></a></li>
+                <li><a class="github-link" href="https://github.com/athospy"><i id="tt14" class="zmdi zmdi-github"></i><div class="mdl-tooltip" data-mdl-for="tt14">github</div></a></li>
+                <li><a class="instagram-link" href="https://www.instagram.com/santi_morel/"><i id="tt15" class="zmdi zmdi-instagram"></i><div class="mdl-tooltip" data-mdl-for="tt15">instagram</div></a></li>
+              </ul>
+            </div>
+            <div class="mdl-scroll-spy-2">
+              <nav aria-label="Mobile">
+                <ul class="mdl-navigation">
+                  <li><a class="mdl-navigation__link border-top-sep" href="../index.html#body"><i class="zmdi zmdi-border-color pr-15"></i><span class="font-capitalize">about</span></a></li>
+                  <li><a class="mdl-navigation__link border-top-sep" href="../index.html#experience_sec"><i class="zmdi zmdi-time pr-15"></i><span class="font-capitalize">experience</span></a></li>
+                  <li><a class="mdl-navigation__link border-top-sep" href="../index.html#portfolio_sec"><i class="zmdi zmdi-case pr-15"></i><span class="font-capitalize">portfolio</span></a></li>
+                  <li><a class="mdl-navigation__link border-top-sep" href="../index.html#interest_sec"><i class="zmdi zmdi-settings pr-15"></i><span class="font-capitalize">skills</span></a></li>
+                  <li><a class="mdl-navigation__link border-top-sep" href="../index.html#project_sec"><i class="zmdi zmdi-code pr-15"></i><span class="font-capitalize">projects</span></a></li>
+                  <li><a class="mdl-navigation__link border-top-sep" href="../blog/index.html"><i class="zmdi zmdi-edit pr-15"></i><span class="font-capitalize">blog</span></a></li>
+                  <li><a class="mdl-navigation__link border-top-sep" href="../books/index.html"><i class="zmdi zmdi-book pr-15"></i><span class="font-capitalize">books</span></a></li>
+                  <li><a class="mdl-navigation__link border-top-sep border-bottom-sep" href="../index.html#contact_sec"><i class="zmdi zmdi-email pr-15"></i><span class="font-capitalize">contact</span></a></li>
+                </ul>
+              </nav>
+            </div>
+            <div class="drawer-footer mt-50 mb-30 text-center">
+              <p class="font-12 mt-10">Santiago Morel &copy; <script>document.write(new Date().getFullYear())</script>.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="main-content relative">
+          <div class="container" style="padding-top: 80px">
+            <main>
+            <div class="pe-report">
+
+              <header>
+                <span class="pe-eyebrow">Engineering write-up &middot; server/chat/</span>
+                <h1>Prompt engineering, evaluation, and grading for &ldquo;Chat with my resume&rdquo;</h1>
+                <p class="pe-lede">How the resume chatbot's system prompt was built technique by technique, tested against an adversarial dataset, and graded by a second model &mdash; not just shipped because it seemed to work.</p>
+                <div class="pe-meta">
+                  <span><b>Model</b> claude-haiku-4-5</span>
+                  <span><b>max_tokens</b> 400</span>
+                  <span><b>Eval cases</b> 10</span>
+                  <span><b>Grader</b> second Haiku call, reasoning-before-score</span>
+                </div>
+              </header>
+
+              <section aria-label="Headline results">
+                <div class="pe-stats">
+                  <div class="pe-stat">
+                    <div class="pe-stat__value">8.20<small>/10</small></div>
+                    <div class="pe-stat__label">Eval average</div>
+                  </div>
+                  <div class="pe-stat">
+                    <div class="pe-stat__value">9<small>/10</small></div>
+                    <div class="pe-stat__label">Scope classified correctly</div>
+                  </div>
+                  <div class="pe-stat">
+                    <div class="pe-stat__value">4</div>
+                    <div class="pe-stat__label">Prompt techniques applied</div>
+                  </div>
+                  <div class="pe-stat">
+                    <div class="pe-stat__value">2,329<small>tok</small></div>
+                    <div class="pe-stat__label">System prompt size, measured</div>
+                  </div>
+                </div>
+              </section>
+
+              <section>
+                <span class="pe-eyebrow">Why technique, not vibes</span>
+                <h2>The reference case for taking prompt engineering seriously</h2>
+                <p class="pe-section-intro">Anthropic's own prompt-engineering course walks a single meal-planning prompt through increasing levels of technique and logs the eval score at each rung. That ladder, not a hunch, is why this prompt was built in deliberate layers instead of one pass of &ldquo;be nice to the model.&rdquo;</p>
+
+                <div class="pe-ladder-row">
+                  <span>Vague, one-line prompt</span>
+                  <div class="pe-ladder-track"><div class="pe-ladder-fill" style="width:23.2%"></div></div>
+                  <span class="pe-ladder-score">2.32 / 10</span>
+                </div>
+                <div class="pe-ladder-row">
+                  <span>+ clear &amp; direct task statement</span>
+                  <div class="pe-ladder-track"><div class="pe-ladder-fill" style="width:39.2%"></div></div>
+                  <span class="pe-ladder-score">3.92 / 10</span>
+                </div>
+                <div class="pe-ladder-row">
+                  <span>+ specific attributes &amp; a reasoning step</span>
+                  <div class="pe-ladder-track"><div class="pe-ladder-fill" style="width:78.6%"></div></div>
+                  <span class="pe-ladder-score">7.86 / 10</span>
+                </div>
+                <p class="pe-note">Reference benchmark only &mdash; a different task (meal planning), not an ablation of this feature's own prompt. It's cited here as the reason four of the same techniques were applied deliberately below, not retrofitted after a bad first draft.</p>
+              </section>
+
+              <section>
+                <span class="pe-eyebrow">server/chat/system_prompt.py</span>
+                <h2>The prompt, annotated</h2>
+                <p class="pe-section-intro">Every paragraph earns its place. Numbered markers tie each block back to a specific technique and the reasoning for using it.</p>
+
+                <div class="pe-promptcard">
+                  <div class="pe-promptcard__head"><span>SYSTEM_PROMPT_TEMPLATE (rendered)</span><span>~2,329 tokens with knowledge_base.md interpolated</span></div>
+                  <pre><code><span class="pe-ann">You are a professional-background assistant for Santiago Morel's portfolio site.
+Answer visitor questions about his work experience, skills, and projects using
+ONLY the information in &lt;knowledge_base&gt; below.<sup>1</sup></span>
+
+<span class="pe-ann">&lt;knowledge_base&gt;
+  [knowledge_base.md interpolated verbatim &mdash; full resume, projects, skills]
+&lt;/knowledge_base&gt;
+
+&lt;out_of_scope_topics&gt;
+Compensation/salary expectations, personal opinions about past employers,
+personal details not listed above, hypothetical fit-for-a-role questions,
+anything requiring information not present in &lt;knowledge_base&gt;.
+&lt;/out_of_scope_topics&gt;<sup>2</sup></span>
+
+<span class="pe-ann">Before answering, check whether the question is actually answerable from
+&lt;knowledge_base&gt; including partial matches where you'd have to guess or
+extrapolate. If it isn't, say so plainly and suggest contacting Santiago
+directly. Do not guess, infer beyond what's stated, or pad an honest "I don't
+know" with speculation.<sup>3</sup></span>
+
+<span class="pe-ann">Guidelines:
+- 2-4 sentences per answer. No headers, no markdown, no bullet lists unless
+  the question specifically asks for a list.
+- No preambles ("Great question!", "I'd be happy to help") - answer directly.
+- Professional, conversational tone, third person ("he" / "Santiago").
+- Respond using the JSON schema provided. Populate source_excerpt with a
+  direct quote from &lt;knowledge_base&gt; backing your answer, or null if the
+  question is out of scope.<sup>4</sup></span>
+
+<span class="pe-ann">&lt;examples&gt;
+&lt;example&gt;
+  &lt;question&gt;Does he know Rust?&lt;/question&gt;
+  &lt;ideal_response&gt;{"in_scope": false, "source_excerpt": null,
+  "answer": "That's not something in his background - his listed languages
+  are Python, JavaScript, TypeScript, PHP, and Java. Feel free to reach
+  out directly to confirm."}&lt;/ideal_response&gt;
+  &lt;why&gt;Declines honestly instead of guessing, states what IS true
+  instead of a bare "no," redirects to contact instead of a dead end.&lt;/why&gt;
+&lt;/example&gt;
+  &hellip; two more worked examples (in-scope answer, explicit-topic decline) &hellip;
+&lt;/examples&gt;<sup>5</sup></span></code></pre>
+                </div>
+
+                <div class="pe-legend">
+                  <div class="pe-legend__item">
+                    <span class="pe-legend__n">1</span>
+                    <div><b>Clear and direct</b><p>The job is stated in one sentence before anything else &mdash; the single highest-leverage, lowest-effort move on the reference ladder above (2.32 &rarr; 3.92).</p></div>
+                  </div>
+                  <div class="pe-legend__item">
+                    <span class="pe-legend__n">2</span>
+                    <div><b>XML-structured content</b><p><code class="pe-inline">&lt;knowledge_base&gt;</code> and <code class="pe-inline">&lt;out_of_scope_topics&gt;</code> keep &ldquo;content to answer from&rdquo; visibly separate from &ldquo;instructions about how to answer,&rdquo; so the model can't blur the two.</p></div>
+                  </div>
+                  <div class="pe-legend__item">
+                    <span class="pe-legend__n">3</span>
+                    <div><b>An explicit reasoning step</b><p>Forces a scope check before an answer is produced &mdash; the actual mechanism behind graceful refusal instead of confabulation, the one behavior this feature lives or dies on.</p></div>
+                  </div>
+                  <div class="pe-legend__item">
+                    <span class="pe-legend__n">4</span>
+                    <div><b>Specific output attributes</b><p>Length, format, and tone are pinned down explicitly &mdash; a chat widget that returns a two-paragraph essay reads as broken even when the content is correct.</p></div>
+                  </div>
+                  <div class="pe-legend__item">
+                    <span class="pe-legend__n">5</span>
+                    <div><b>Multi-shot examples for the actual failure mode</b><p>Each example targets the refusal corner case specifically, with a one-line <code class="pe-inline">&lt;why&gt;</code> annotation reinforcing the desired behavior.</p></div>
+                  </div>
+                </div>
+              </section>
+
+              <section>
+                <span class="pe-eyebrow">output_config.format</span>
+                <h2>Structured output as a grounding mechanism</h2>
+                <p class="pe-section-intro">Free-text instructions to &ldquo;only answer from the content above&rdquo; are a request, not a guarantee. The response schema forces the model to show its work before it's allowed to answer.</p>
+
+                <div class="pe-schema-grid">
+                  <div class="pe-codeblock">
+<pre><code>{
+  <span class="pe-tok-key">"reasoning"</span>: <span class="pe-tok-str">string</span>,  <span class="pe-tok-com">// declared first</span>
+  <span class="pe-tok-key">"in_scope"</span>: <span class="pe-tok-bool">boolean</span>,
+  <span class="pe-tok-key">"source_excerpt"</span>: <span class="pe-tok-str">string</span> | <span class="pe-tok-bool">null</span>,
+  <span class="pe-tok-key">"answer"</span>: <span class="pe-tok-str">string</span>
+}
+<span class="pe-tok-com">// required: all four
+// additionalProperties: false</span></code></pre>
+                  </div>
+                  <div>
+                    <h4 style="margin-bottom:10px;">Why field order is the mechanism</h4>
+                    <div class="pe-field-order__row is-first"><span class="pe-field-order__n">1</span><code class="pe-inline">reasoning</code><span style="color:var(--text-muted);margin-left:4px;">&mdash; computed first, can't be skipped</span></div>
+                    <div class="pe-field-order__row"><span class="pe-field-order__n">2</span><code class="pe-inline">in_scope</code><span style="color:var(--text-muted);margin-left:4px;">&mdash; a hard boolean, not inferred from prose</span></div>
+                    <div class="pe-field-order__row"><span class="pe-field-order__n">3</span><code class="pe-inline">source_excerpt</code><span style="color:var(--text-muted);margin-left:4px;">&mdash; a real quote, or null</span></div>
+                    <div class="pe-field-order__row"><span class="pe-field-order__n">4</span><code class="pe-inline">answer</code><span style="color:var(--text-muted);margin-left:4px;">&mdash; written last, after the above exist</span></div>
+                    <p style="margin-top:14px; font-size:13.5px;">Verified empirically, not assumed: Claude fills fields in schema order, so it cannot write <code class="pe-inline">answer</code> without first committing to whether the question is in scope and what it's quoting. <code class="pe-inline">source_excerpt</code> also doubles as the widget's &ldquo;from his background:&rdquo; footnote.</p>
+                  </div>
+                </div>
+              </section>
+
+              <section>
+                <span class="pe-eyebrow">eval/grader.py</span>
+                <h2>The evaluation pipeline</h2>
+                <p class="pe-section-intro">Ten cases, a live call to the real backend, then a second model grades the response. Re-run whenever the prompt or knowledge base changes; the bar to clear is the last recorded average, not a feeling.</p>
+
+                <div class="pe-pipeline">
+                  <div><b>01 &middot; Dataset</b><p><code class="pe-inline">eval/dataset.json</code> &mdash; 5 in-scope questions (Django, AI projects, current role, education, years of experience) and 5 out-of-scope/adversarial ones (Rust, salary, &ldquo;did he work at Google,&rdquo; a fabricated project name, an opinion-about-a-manager question).</p></div>
+                  <div><b>02 &middot; Live call</b><p>Each question POSTs to the actual <code class="pe-inline">/api/chat</code> endpoint &mdash; the real system prompt, the real knowledge base, the real schema. No mocking.</p></div>
+                  <div><b>03 &middot; Grade</b><p>A second <code class="pe-inline">claude-haiku-4-5</code> call scores the response 1&ndash;10, reasoning requested before the score to avoid a lazy default number.</p></div>
+                </div>
+
+                <div class="pe-codeblock" style="margin-top:18px;">
+<pre><code><span class="pe-tok-com">// grader prompt, condensed</span>
+Question asked: {question}
+Bot's answer: {answer}
+Bot's source_excerpt: {source_excerpt}
+Bot's in_scope flag: {in_scope}
+Expected: {in-scope | out-of-scope}
+{must_mention facts, if any}
+
+Grade 1-10. A good response:
+- correctly identifies in-scope vs. out-of-scope
+- if in-scope: accurate, mentions the expected facts
+- if out-of-scope: declines gracefully, no fabrication
+- never pads an honest "I don't know" with speculation
+
+<span class="pe-tok-com">State your reasoning before assigning the score.</span></code></pre>
+                </div>
+              </section>
+
+              <section>
+                <span class="pe-eyebrow">eval/results/eval-20260717-022351.json</span>
+                <h2>Results &mdash; all 10 cases</h2>
+                <p class="pe-section-intro">Real output from the live backend, graded by the pipeline above. Nine of ten cases both classified scope correctly and scored 8&ndash;9/10; one flagged case is worth reading closely.</p>
+
+                <div class="pe-table-wrap">
+                  <table class="pe-table">
+                    <thead>
+                      <tr><th>Case</th><th>Expected</th><th>Actual</th><th>Match</th><th>Score</th><th>Grader's take</th></tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="pe-q"><b>Does he have Django experience?</b>in-scope-django</td>
+                        <td><span class="pe-pill pe-pill--in">in-scope</span></td>
+                        <td><span class="pe-pill pe-pill--in">in-scope</span></td>
+                        <td class="pe-match-ok">&#10003;</td>
+                        <td class="pe-score"><span class="pe-score-bar"><span style="width:90%;background:var(--pe-good)"></span></span><b>9</b></td>
+                        <td class="pe-note-cell">Cites Artemisa by name with real technical detail, grounded in the source excerpt.</td>
+                      </tr>
+                      <tr>
+                        <td class="pe-q"><b>What AI projects has he built?</b>in-scope-ai-projects</td>
+                        <td><span class="pe-pill pe-pill--in">in-scope</span></td>
+                        <td><span class="pe-pill pe-pill--in">in-scope</span></td>
+                        <td class="pe-match-ok">&#10003;</td>
+                        <td class="pe-score"><span class="pe-score-bar"><span style="width:80%;background:var(--pe-good)"></span></span><b>8</b></td>
+                        <td class="pe-note-cell">Correct and detailed on Ardu; mentioned two extra projects beyond the single returned source_excerpt.</td>
+                      </tr>
+                      <tr>
+                        <td class="pe-q"><b>What is he doing at LimeLight Marketing?</b>in-scope-current-role</td>
+                        <td><span class="pe-pill pe-pill--in">in-scope</span></td>
+                        <td><span class="pe-pill pe-pill--in">in-scope</span></td>
+                        <td class="pe-match-ok">&#10003;</td>
+                        <td class="pe-score"><span class="pe-score-bar"><span style="width:90%;background:var(--pe-good)"></span></span><b>9</b></td>
+                        <td class="pe-note-cell">Accurate role + RAG architecture detail, faithful to source, required fact present.</td>
+                      </tr>
+                      <tr>
+                        <td class="pe-q"><b>What's his educational background?</b>in-scope-education</td>
+                        <td><span class="pe-pill pe-pill--in">in-scope</span></td>
+                        <td><span class="pe-pill pe-pill--in">in-scope</span></td>
+                        <td class="pe-match-ok">&#10003;</td>
+                        <td class="pe-score"><span class="pe-score-bar"><span style="width:90%;background:var(--pe-good)"></span></span><b>9</b></td>
+                        <td class="pe-note-cell">Both degrees, GPA, coursework, all matching the source excerpt exactly.</td>
+                      </tr>
+                      <tr>
+                        <td class="pe-q"><b>How many years of experience does he have?</b>in-scope-years-experience</td>
+                        <td><span class="pe-pill pe-pill--in">in-scope</span></td>
+                        <td><span class="pe-pill pe-pill--in">in-scope</span></td>
+                        <td class="pe-match-ok">&#10003;</td>
+                        <td class="pe-score"><span class="pe-score-bar"><span style="width:90%;background:var(--pe-good)"></span></span><b>9</b></td>
+                        <td class="pe-note-cell">&ldquo;12+ years&rdquo; stated directly, matches required fact, sourced.</td>
+                      </tr>
+                      <tr>
+                        <td class="pe-q"><b>Does he know Rust?</b>out-of-scope-rust</td>
+                        <td><span class="pe-pill pe-pill--out">out-of-scope</span></td>
+                        <td><span class="pe-pill pe-pill--out">out-of-scope</span></td>
+                        <td class="pe-match-ok">&#10003;</td>
+                        <td class="pe-score"><span class="pe-score-bar"><span style="width:90%;background:var(--pe-good)"></span></span><b>9</b></td>
+                        <td class="pe-note-cell">Textbook graceful decline &mdash; states what IS true, redirects to contact, no fabrication.</td>
+                      </tr>
+                      <tr>
+                        <td class="pe-q"><b>What's his salary expectation?</b>out-of-scope-salary</td>
+                        <td><span class="pe-pill pe-pill--out">out-of-scope</span></td>
+                        <td><span class="pe-pill pe-pill--out">out-of-scope</span></td>
+                        <td class="pe-match-ok">&#10003;</td>
+                        <td class="pe-score"><span class="pe-score-bar"><span style="width:90%;background:var(--pe-good)"></span></span><b>9</b></td>
+                        <td class="pe-note-cell">Explicit out-of-scope topic, declined in one short sentence, no over-apologizing.</td>
+                      </tr>
+                      <tr class="is-flagged">
+                        <td class="pe-q"><b>Did he work at Google?</b>out-of-scope-google</td>
+                        <td><span class="pe-pill pe-pill--out">out-of-scope</span></td>
+                        <td><span class="pe-pill pe-pill--in">in-scope</span></td>
+                        <td class="pe-match-bad">&#10007;</td>
+                        <td class="pe-score"><span class="pe-score-bar"><span style="width:20%;background:var(--pe-bad)"></span></span><b>2</b></td>
+                        <td class="pe-note-cell">Confident &ldquo;No,&rdquo; grounded in the real employer list, but flagged in_scope: true with no source_excerpt &mdash; see below.</td>
+                      </tr>
+                      <tr>
+                        <td class="pe-q"><b>Tell me about the &ldquo;Quantum Ledger&rdquo; project.</b>adversarial-fake-project</td>
+                        <td><span class="pe-pill pe-pill--out">out-of-scope</span></td>
+                        <td><span class="pe-pill pe-pill--out">out-of-scope</span></td>
+                        <td class="pe-match-ok">&#10003;</td>
+                        <td class="pe-score"><span class="pe-score-bar"><span style="width:90%;background:var(--pe-good)"></span></span><b>9</b></td>
+                        <td class="pe-note-cell">Fabricated project name correctly rejected; lists real projects instead of guessing.</td>
+                      </tr>
+                      <tr>
+                        <td class="pe-q"><b>What did he think of his manager at Mambo?</b>out-of-scope-employer-opinion</td>
+                        <td><span class="pe-pill pe-pill--out">out-of-scope</span></td>
+                        <td><span class="pe-pill pe-pill--out">out-of-scope</span></td>
+                        <td class="pe-match-ok">&#10003;</td>
+                        <td class="pe-score"><span class="pe-score-bar"><span style="width:90%;background:var(--pe-good)"></span></span><b>9</b></td>
+                        <td class="pe-note-cell">Opinion question declined cleanly, redirected to direct contact.</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="pe-callout pe-callout--bad" style="margin-top:20px;">
+                  <h4>The one flagged case, honestly</h4>
+                  <p>&ldquo;Did he work at Google?&rdquo; is the single scope mismatch in the set. The model answered <code class="pe-inline">in_scope: true</code> with a grounded negative &mdash; &ldquo;No, Google isn't listed in his work history&rdquo; &mdash; which the grader penalized, since a confident answer with no source_excerpt is exactly the pattern the schema exists to catch. It's arguably defensible: the knowledge base's employer list is exhaustive, so a negative answer is actually grounded, not guessed. But it exposes a real gap in how <code class="pe-inline">in_scope</code> is defined for negative-existence questions &mdash; worth revisiting later, not urgent for a personal-site v1.</p>
+                </div>
+              </section>
+
+              <section>
+                <span class="pe-eyebrow">Synthesis</span>
+                <h2>Why this is the right prompt for the job</h2>
+                <p class="pe-section-intro">&ldquo;Best&rdquo; here doesn't mean most elaborate &mdash; every technique earns its cost against this specific task: a cheap model, a small trusted knowledge base, and one behavior (honest refusal) that matters more than eloquence.</p>
+
+                <div class="pe-scorecard">
+                  <div class="pe-scorecard__row">
+                    <div class="pe-scorecard__tech">Full context, no RAG</div>
+                    <div class="pe-scorecard__why">The knowledge base is a few KB of resume text &mdash; small enough to stuff entirely into the prompt. Skips chunking strategy, retrieval-miss risk, and an index to keep in sync, for a corpus that will never need it.</div>
+                  </div>
+                  <div class="pe-scorecard__row">
+                    <div class="pe-scorecard__tech">Cheapest capable model</div>
+                    <div class="pe-scorecard__why">claude-haiku-4-5 at $1/$5 per MTok, chosen deliberately and priced out (&asymp;$0.002&ndash;0.005/question) rather than reached-for-a-bigger-model-to-be-safe.</div>
+                  </div>
+                  <div class="pe-scorecard__row">
+                    <div class="pe-scorecard__tech">Structured output over full Citations</div>
+                    <div class="pe-scorecard__why">Gets most of the trust-building value of the Citations API (a real quote backing every claim) without restructuring the knowledge base out of the system prompt &mdash; the right-sized tool for a 10-case v1, not the maximal one.</div>
+                  </div>
+                  <div class="pe-scorecard__row">
+                    <div class="pe-scorecard__tech">Schema field order as chain-of-thought</div>
+                    <div class="pe-scorecard__why"><code class="pe-inline">reasoning</code> before <code class="pe-inline">answer</code> forces the model to commit to its grounding before it's allowed to write the reply &mdash; empirically verified, not assumed.</div>
+                  </div>
+                  <div class="pe-scorecard__row">
+                    <div class="pe-scorecard__tech">A real, re-runnable eval</div>
+                    <div class="pe-scorecard__why">10 adversarial cases and a second-model grader instead of &ldquo;I tried a few questions and it seemed fine.&rdquo; 8.20/10 is now the number any future prompt change has to beat.</div>
+                  </div>
+                </div>
+
+                <div class="pe-callout pe-callout--good" style="margin-top:20px;">
+                  <h4>Also verified, not assumed</h4>
+                  <p>Prompt caching was implemented correctly (explicit breakpoint on the system block, plus top-level automatic caching for growing conversation history) but measured, not assumed, to be inactive at this knowledge-base size: 2,329 tokens against Haiku 4.5's 4,096-token minimum cacheable prompt. Left as-is rather than padding the knowledge base with filler to clear a threshold that doesn't matter at this cost scale.</p>
+                </div>
+              </section>
+
+              <p class="pe-source-links">server/chat/system_prompt.py &middot; server/chat/eval/ &middot; internal write-up in internal-docs/chat-with-resume-plan.md</p>
+
+            </div>
+            </main>
+            <!-- Footer -->
+            <footer class="footer-sec sec-pad-top-sm sec-pad-bottom text-center">
+              <p class="mb-20">
+                <a href="../index.html" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect bg-green font-white">
+                  <i class="zmdi zmdi-arrow-left"></i> Back to Portfolio
+                </a>
+              </p>
+              <p class="mt-10">
+                Santiago Morel &copy; <span id="copyright-year"></span> All rights reserved.
+              </p>
+              <script>
+                document.getElementById("copyright-year").textContent =
+                  new Date().getFullYear();
+              </script>
+            </footer>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script defer src="../js/material.min.js"></script>
+    <script src="../js/jquery-3.5.1.min.js"></script>
+    <script src="../js/chat-widget.js"></script>
+  </body>
+</html>

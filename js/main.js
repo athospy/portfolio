@@ -3,6 +3,7 @@ $(document).ready(function () {
   $("#experience_sec").load("section_experience.html");
   $("#portfolio_sec").load("section_portfolio.html");
   $("#interest_sec").load("section_interest.html");
+  $("#certifications_sec").load("section_certifications.html");
   $("#project_sec").load("section_project.html");
   $("#contact_sec").load("section_contact.html");
 

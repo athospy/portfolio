@@ -1109,6 +1109,43 @@ p {
   color: #e91e63 !important;
 }
 
+/* Certifications */
+.cert-card h5 {
+  min-height: 44px;
+}
+
+.cert-meta {
+  color: var(--text-muted);
+  font-size: 0.85em;
+}
+
+.cert-link {
+  display: inline-block;
+  margin-top: 15px;
+  color: var(--accent);
+  font-weight: 500;
+  font-size: 0.9em;
+  transition: var(--transition);
+}
+
+.cert-link:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.cert-view-all {
+  margin-top: 10px;
+}
+
+.cert-view-all a {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.cert-view-all a:hover {
+  color: var(--accent);
+}
+
 /* Enhanced card transitions - extends existing mdl-card styles */
 .mdl-card.enhanced-hover:hover {
   transform: translateY(-2px);

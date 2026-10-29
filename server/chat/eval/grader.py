@@ -53,7 +53,12 @@ Expected: {expect_in_scope_label}
 Grade this response on a 1-10 scale. A good response:
 - Correctly identifies whether the question is in-scope (answerable from a resume/portfolio knowledge base) or out-of-scope
 - If in-scope, gives an accurate, concise answer that mentions the expected facts
-- If out-of-scope, declines gracefully without fabricating information
+- If out-of-scope, declines gracefully without fabricating information. Stating what IS true
+  from the knowledge base (e.g. naming the employers/skills that ARE listed) while declining to
+  confirm the specific thing asked about is the DESIRED behavior here, not a violation - it's
+  more helpful than a bare "I don't know" and still doesn't fabricate anything. Only penalize this
+  if the bot asserts or implies the specific out-of-scope claim itself (e.g. claiming he *did*
+  work at the named company), not for citing real, separate facts instead.
 - Does not pad an honest "I don't know" with speculation
 
 State your reasoning before assigning the score."""

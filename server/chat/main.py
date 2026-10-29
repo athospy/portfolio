@@ -1,15 +1,20 @@
 """FastAPI backend for the "chat with my resume" widget.
 
-Stateless: no database, no session store. The client resends conversation
-history on every call. See internal-docs/chat-with-resume-plan.md for the
-reasoning behind the model choice, caching strategy, and grounding approach.
+Stateless with one deliberate exception: question_log.jsonl (see
+_log_question below) records each question asked and whether it was
+in-scope, so knowledge-base gaps can be spotted over time. No IP, no
+history, no answer text - just enough to see what visitors ask. See
+internal-docs/chat-with-resume-plan.md for the reasoning behind the model
+choice, caching strategy, and grounding approach.
 """
 
+import json
 import logging
 import os
 import time
 from collections import defaultdict, deque
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Literal, Optional
 
 import anthropic
@@ -26,6 +31,8 @@ logger = logging.getLogger("chat")
 MODEL = "claude-haiku-5-5"
 MAX_TOKENS = 400
 HISTORY_LIMIT = 6  # last 6 entries (3 exchanges), regardless of what the client sends
+
+QUESTION_LOG_PATH = Path(__file__).parent / "question_log.jsonl"
 
 PER_IP_PER_MINUTE = 10
 PER_IP_PER_DAY = 60
@@ -109,6 +116,24 @@ def _check_rate_limit(ip: str) -> Optional[int]:
     return None
 
 
+def _log_question(question: str, in_scope: bool) -> None:
+    """Appends one line to question_log.jsonl - never let this break a response."""
+    try:
+        with QUESTION_LOG_PATH.open("a", encoding="utf-8") as f:
+            f.write(
+                json.dumps(
+                    {
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
+                        "question": question,
+                        "in_scope": in_scope,
+                    }
+                )
+                + "\n"
+            )
+    except OSError:
+        logger.exception("failed to write question_log.jsonl")
+
+
 @app.post("/api/chat")
 async def chat(request: Request):
     ip = request.client.host if request.client else "unknown"
@@ -162,6 +187,7 @@ async def chat(request: Request):
         # (unlike Fable 5.1) - a decline is a normal 200, not an exception.
         category = response.stop_details.category if response.stop_details else None
         logger.info("chat: ip=%s refusal category=%s", ip, category)
+        _log_question(chat_request.message, in_scope=False)
         return JSONResponse(
             content={
                 "answer": "That's not something I can help with here - feel free to reach out to Santiago directly.",
@@ -175,8 +201,6 @@ async def chat(request: Request):
         logger.error("No text block in response: %s", response)
         return JSONResponse(status_code=500, content={"error": "server_error"})
 
-    import json
-
     parsed = json.loads(text)
 
     logger.info(
@@ -187,6 +211,7 @@ async def chat(request: Request):
         response.usage.cache_creation_input_tokens,
         parsed["reasoning"],
     )
+    _log_question(chat_request.message, in_scope=parsed["in_scope"])
 
     return JSONResponse(
         content={

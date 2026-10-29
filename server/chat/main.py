@@ -23,7 +23,7 @@ from system_prompt import RESPONSE_SCHEMA, build_system_prompt
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("chat")
 
-MODEL = "claude-haiku-4-5"
+MODEL = "claude-haiku-5-5"
 MAX_TOKENS = 400
 HISTORY_LIMIT = 6  # last 6 entries (3 exchanges), regardless of what the client sends
 
@@ -137,6 +137,11 @@ async def chat(request: Request):
         response = client.messages.create(
             model=MODEL,
             max_tokens=MAX_TOKENS,
+            # Grounded lookup Q&A doesn't need reasoning, and Haiku 5.5 (unlike
+            # 4.5) runs adaptive thinking by default when `thinking` is
+            # omitted - leaving it on would eat into MAX_TOKENS and add
+            # latency for no benefit here.
+            thinking={"type": "disabled"},
             system=[
                 {
                     "type": "text",
@@ -151,6 +156,19 @@ async def chat(request: Request):
     except anthropic.APIError as e:
         logger.error("Anthropic API error: %s", e)
         return JSONResponse(status_code=500, content={"error": "server_error"})
+
+    if response.stop_reason == "refusal":
+        # Haiku 5.5 runs safety classifiers with no server-side fallback
+        # (unlike Fable 5.1) - a decline is a normal 200, not an exception.
+        category = response.stop_details.category if response.stop_details else None
+        logger.info("chat: ip=%s refusal category=%s", ip, category)
+        return JSONResponse(
+            content={
+                "answer": "That's not something I can help with here - feel free to reach out to Santiago directly.",
+                "source_excerpt": None,
+                "in_scope": False,
+            }
+        )
 
     text = next((b.text for b in response.content if b.type == "text"), None)
     if text is None:

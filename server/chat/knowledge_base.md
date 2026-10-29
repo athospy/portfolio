@@ -43,6 +43,9 @@ Personal Python pipeline using the Claude API for structured JSON extraction, mu
 ### PSU Chatbot
 Fine-tuned microsoft/DialoGPT-small with the Hugging Face Transformers library on curated Pittsburg State University Q&A data, covering programs, policies, and campus resources. Deployed as a live web app. Stack: Python, Hugging Face, PyTorch, NLP.
 
+### GateFire
+Portrait mobile arcade shooter shipped end-to-end: prototyped in Phaser 3, then rebuilt natively in Unity 6 (C#) with URP and published to the App Store via Xcode/Il2Cpp. Players auto-fire while dodging obstacles and shooting down gates to claim stat trade-offs (damage vs. fire rate, flat bonus vs. multiplier) as difficulty escalates. Stack: Unity 6, C#, URP, Xcode, Il2Cpp.
+
 ## Skills
 **Languages:** Python, JavaScript, TypeScript, PHP, Java
 **Frameworks:** React, Next.js, Django, Laravel, Node.js, React Native
@@ -56,6 +59,9 @@ Fine-tuned microsoft/DialoGPT-small with the Hugging Face Transformers library o
 **Master of Science in Technology (Information Technology)** — Pittsburg State University, graduated July 2025, GPA 4.0. Relevant coursework: Artificial Intelligence, Data Mining, Software Project Management.
 
 **Bachelor of Science in Computer Science** — Catholic University "Nuestra Señora de la Asunción," graduated 2012.
+
+## Certifications
+Claude Certified Architect (Anthropic, Foundations, Oct 2026) and Claude Certified Developer (Anthropic, Foundations, Sep 2026). Also holds Building with the Claude API, Claude Code in Action, and Introduction to Model Context Protocol (all Anthropic, issued May 2026), plus CS50: Web Programming with Python and JavaScript (Harvard University, Jul 2024).
 
 ## Additional Information
 Authorized to work in the U.S. under STEM OPT extension. Fluent in English, native Spanish speaker.

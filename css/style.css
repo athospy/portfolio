@@ -889,6 +889,20 @@ p {
   text-decoration: none;
 }
 
+.project-secondary-link {
+  display: inline-block;
+  margin-top: 14px;
+  margin-left: 12px;
+  color: var(--accent);
+  font-weight: 500;
+  font-size: 0.82em;
+  text-decoration: none;
+}
+
+.project-secondary-link:hover {
+  text-decoration: underline;
+}
+
 /* Contact Section Styles */
 
 .mdl-card h4 {

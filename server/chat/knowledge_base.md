@@ -28,6 +28,9 @@ iOS Development Instructor at High Tech (Oct 2013 – Jan 2014), teaching Object
 
 ## Projects
 
+### Sidequest Studio
+A small creative studio run by AI agents, with a human approving every post before it goes out. Four plush-toy characters (Pancracio, Eusebio, CoderAssist, Gervasio), each with a written "bible" defining its look, voice, and boundaries. The pipeline: an idea goes on the schedule, Claude writes the script in-character and checks it against the bible, an image model paints the scenes (checked by another AI for errors), each character gets its own AI voice and motion, and Remotion (Python) assembles the final cut with captions and on-screen text. The finished video arrives by email for a yes/no — nothing posts without that approval. 165+ PRs merged building it. Stack: Claude Code, Claude, OpenAI image models, ElevenLabs, Remotion, Python. Live across Instagram, YouTube, and Facebook, posting most days.
+
 ### Artemisa
 Full-stack Django + PostgreSQL scoring platform for multi-round competitions with dynamic category rules and live leaderboards. Santiago was the sole developer, owning architecture, backend logic, frontend, and deployment end-to-end. Stack: Django, JavaScript, PostgreSQL, Bootstrap. Running in production, actively used for real events.
 

@@ -1109,6 +1109,30 @@ p {
   margin: 3px 3px 3px 0;
 }
 
+/* Keep tags as written (Next.js, iOS, pgvector) and tightly spaced: beats the older
+   `.interest-sec .mdl-card span { text-transform: capitalize; margin-top: 25px }` rule. */
+.interest-sec .mdl-card .skill-tag {
+  text-transform: none;
+  margin: 3px 3px 3px 0;
+}
+
+/* Skill cards have different heights; a flex row keeps every row of four
+   aligned (Bootstrap 3 floats leave gaps under a tall card). */
+.skills-sec > .row {
+  display: flex;
+  flex-wrap: wrap;
+}
+.skills-sec > .row:before,
+.skills-sec > .row:after {
+  display: none; /* Bootstrap clearfix pseudo-elements would become flex items */
+}
+.skills-sec > .row > [class*="col-"] {
+  display: flex;
+}
+.skills-sec > .row > [class*="col-"] > .skill-card {
+  width: 100%;
+}
+
 /* Color variations for different skill categories */
 .font-orange {
   color: #ff9800 !important;

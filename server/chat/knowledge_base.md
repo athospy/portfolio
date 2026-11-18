@@ -38,7 +38,7 @@ Full-stack Django + PostgreSQL scoring platform for multi-round competitions wit
 A working mobile app (in beta on iOS and Android) built as a real-world testbed for prompt engineering. Runs a 1.5B LLM locally via Ollama on a 2GB VPS. Built an 8B judge-model evaluation framework to score outputs on relevance, originality, and clarity, plus a two-gate generation pipeline (lexical overlap + Jaccard similarity) to reject low-quality or near-duplicate outputs. Stack: React Native, Node.js, Ollama, PostgreSQL, prompt engineering.
 
 ### Gus Bus Plus
-Shuttle tracker built for Pittsburg State University students: it synced live bus positions via Firebase Firestore and rendered them on an interactive Google Maps interface. Stack: JavaScript, Google Maps API, Firebase Firestore, HTML/CSS. No longer running.
+Shuttle tracker built for Pittsburg State University students: it synced live bus positions via Firebase Firestore and rendered them on an interactive Google Maps interface. Stack: JavaScript, Google Maps API, Firebase Firestore, HTML/CSS. Live demo: https://gusbusplus.santiagomorel.dev
 
 ### LLM Ranking Pipeline
 Personal Python batch pipeline that classifies and ranks ~6,500 documents a week in two LLM passes (a fast model, then a reasoning model) with JSON-schema outputs, enriched from a 550k-row public dataset and web sources. Runs weekly on a Linux VPS with systemd and n8n, with SQLite persistence. Stack: Python, Claude, structured outputs, web scraping, SQLite, n8n.

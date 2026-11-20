@@ -44,7 +44,7 @@ Shuttle tracker built for Pittsburg State University students: it synced live bu
 Personal Python batch pipeline that classifies and ranks ~6,500 documents a week in two LLM passes (a fast model, then a reasoning model) with JSON-schema outputs, enriched from a 550k-row public dataset and web sources. Runs weekly on a Linux VPS with systemd and n8n, with SQLite persistence. Stack: Python, Claude, structured outputs, web scraping, SQLite, n8n.
 
 ### PSU Chatbot
-Fine-tuned microsoft/DialoGPT-small with the Hugging Face Transformers library on curated Pittsburg State University Q&A data, covering programs, policies, and campus resources. The demo is currently offline. Stack: Python, Hugging Face, PyTorch, NLP.
+Fine-tuned microsoft/DialoGPT-small with the Hugging Face Transformers library on curated Q&A about Pittsburg State University's academic programs, and served it from a Django app on a 1-CPU server. It's a 2024 learning project; the demo page explains its known limits. Stack: Python, Hugging Face, PyTorch, Django, NLP. Live demo: https://chatbot.santiagomorel.dev. Code: https://github.com/athospy/transformer_chatbot
 
 ### GateFire
 Portrait mobile arcade shooter shipped end-to-end: prototyped in Phaser 3, then rebuilt natively in Unity 6 (C#) with URP and published to the App Store via Xcode/Il2Cpp. Players auto-fire while dodging obstacles and shooting down gates to claim stat trade-offs (damage vs. fire rate, flat bonus vs. multiplier) as difficulty escalates. Stack: Unity 6, C#, URP, Xcode, Il2Cpp.

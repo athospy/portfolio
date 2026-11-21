@@ -79,16 +79,17 @@
 
       <div class="project-item">
         <h4>PSU Chatbot</h4>
-        <p class="project-problem">Fine-tuned a transformer model on domain-specific data using Hugging Face</p>
-        <p>Hands-on ML project: fine-tuned microsoft/DialoGPT-small with the Hugging Face Transformers library on curated Q&amp;A about Pittsburg State University's academic programs, and served it from a Django app on a 1-CPU server.</p>
+        <p class="project-problem">Fine-tuned transformer vs. embedding retrieval, measured with an eval</p>
+        <p>Fine-tuned microsoft/DialoGPT-small on Q&amp;A about Pittsburg State University's programs, then built an eval of 117 unseen questions. Embedding retrieval got 82% right with no invented links; the fine-tuned model invented links in over half its answers. So retrieval answers, and the model's reply is shown beside it. Django on a 1-CPU server.</p>
         <div class="project-tech-pills">
           <span class="project-tech-pill">Python</span>
-          <span class="project-tech-pill">Hugging Face</span>
           <span class="project-tech-pill">PyTorch</span>
+          <span class="project-tech-pill">Hugging Face</span>
+          <span class="project-tech-pill">Embeddings</span>
+          <span class="project-tech-pill">Evals</span>
           <span class="project-tech-pill">Django</span>
-          <span class="project-tech-pill">NLP</span>
         </div>
-        <p class="project-outcome">✓ Domain-specific fine-tuned chatbot, deployed and live</p>
+        <p class="project-outcome">✓ Live: answers in milliseconds with the official link, eval results on the page</p>
         <a href="https://chatbot.santiagomorel.dev/" target="_blank" class="project-demo-btn">Live Demo →</a>
       </div>
 
